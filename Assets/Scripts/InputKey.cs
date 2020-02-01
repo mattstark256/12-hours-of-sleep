@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-// Note: InputKey movement is done in local space. This is because local space is relative to the canvas so is affected by the canvas scaler. 
+ 
 
 
 [RequireComponent(typeof(RectTransform))]
@@ -22,9 +21,13 @@ public class InputKey : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     public void SetVelocity(Vector3 _velocity) { velocity = _velocity; }
 
+    private bool breaking = false;
+
     // These shouldn't be modified per prefab, so I'm using consts for now.
-    private const float snapSpeed = 700;
+    private const float snapLerpSpeed = 30;
+    private const float maxSnapLerp = 0.7f;
     private const float drag = 12;
+    private const float breakDuration = 2;
 
 
     private void Awake()
@@ -51,8 +54,10 @@ public class InputKey : MonoBehaviour
 
     private void Update()
     {
+        if (breaking) { return; }
+
         // Apply velocity
-        transform.localPosition += Time.deltaTime * velocity;
+        transform.position += CanvasScale.Instance.CanvasToWorld( velocity * Time.deltaTime);
 
         // Apply drag
         velocity -= velocity * Mathf.Clamp01(Time.deltaTime * drag); // Clamp01 prevents low framerates causing it to reverse direction
@@ -63,19 +68,32 @@ public class InputKey : MonoBehaviour
         // Move towards the inputSlot, if one is assigned
         if (inputSlot != null)
         {
-            if (transform.localPosition != inputSlot.transform.localPosition)
-            {
-                float maxMoveDistance = 500 * Time.deltaTime;
-                Vector3 distanceToSlot = inputSlot.transform.localPosition - transform.localPosition;
-                if (distanceToSlot.magnitude <= maxMoveDistance)
-                {
-                    transform.localPosition = inputSlot.transform.localPosition;
-                }
-                else
-                {
-                    transform.localPosition += distanceToSlot.normalized * maxMoveDistance;
-                }
-            }
+            // Make it scale by deltaTime, but limit it in case the fps is really low.
+            float lerpAmount = Mathf.Clamp(Time.deltaTime * snapLerpSpeed, 0, maxSnapLerp);
+            transform.position = Vector3.Lerp(transform.position, inputSlot.transform.position, lerpAmount);
         }
+    }
+
+
+    public void Break(Vector3 breakVelocity, float breakRotationSpeed) { StartCoroutine(BreakCoroutine(breakVelocity, breakRotationSpeed)); }
+    private IEnumerator BreakCoroutine(Vector3 breakVelocity, float breakRotationSpeed)
+    {
+        breaking = true;
+        velocity = breakVelocity;
+
+        float f = 0;
+        while(f<1)
+        {
+            f += Time.deltaTime / breakDuration;
+            if (f > 1) { f = 1; }
+
+            velocity += Vector3.down * 2000 * Time.deltaTime;
+            transform.position += CanvasScale.Instance.CanvasToWorld(velocity * Time.deltaTime);
+            transform.localRotation *= Quaternion.Euler(0, 0, breakRotationSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }
