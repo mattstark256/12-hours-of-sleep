@@ -24,8 +24,7 @@ public class CameraEffects : MonoBehaviour
 
 
 
-    [SerializeField]
-    Camera camera;
+    Camera currentCamera;
 
     ScreenShake screenShake;
     ChromaticAberrationScript aberrations;
@@ -35,8 +34,9 @@ public class CameraEffects : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        screenShake = camera.GetComponent<ScreenShake>();
-        aberrations = camera.GetComponent<ChromaticAberrationScript>();
+        currentCamera = GetComponent<Camera>();
+        screenShake = currentCamera.GetComponent<ScreenShake>();
+        aberrations = currentCamera.GetComponent<ChromaticAberrationScript>();
     }
 
     // Update is called once per frame

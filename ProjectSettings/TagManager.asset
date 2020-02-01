@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Door
+  - Death
   layers:
   - Default
   - TransparentFX
@@ -45,4 +46,7 @@ TagManager:
     locked: 0
   - name: test
     uniqueID: 1856878059
+    locked: 0
+  - name: Player
+    uniqueID: 3241767569
     locked: 0

@@ -96,15 +96,17 @@ public class PlayerController : MonoBehaviour
         // If they've landed on the ground, do a camera shake
         if (!onFloorLastFrame && onFloor)
         {
-            if (fallingVelocity / assumedTerminalVelocity > 0.13f)
+            // ~sf normal landing
+            if (fallingVelocity / assumedTerminalVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
             {
+                // ~sf heavy landing
                 Debug.Log(fallingVelocity / assumedTerminalVelocity);
                 CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
             }
         }
 
         // Create object to vizualize trajectory
-        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
+       // Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
     }
 
 
@@ -112,9 +114,20 @@ public class PlayerController : MonoBehaviour
     {
         movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
 
+        //if(Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
+        //{
+        //    AudioManager.Instance.SetLoopingAndPlay("/* ~sf walking */");
+        //}
+        //else if (AudioManager.Instance.IsPlaying("/* ~sf walking */"))
+        //{
+        //    AudioManager.Instance.StopLooping("/* ~sf walking */");
+        //    // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
+        //}
+
         bool jumpInput = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W); // replace this line with matt's call
         if (jumpInput && canJump)
         {
+            // ~sf jump
             beginJump = true;
         }
     }
