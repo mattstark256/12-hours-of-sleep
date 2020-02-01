@@ -82,7 +82,10 @@ public class AudioManager : MonoBehaviour
             m.source.loop = m.loop;
 
         }
-        Play(music[0].name);
+        if(music.Length > 0)
+        {
+            Play(music[0].name);
+        }
     }
 
     // Update is called once per frame
