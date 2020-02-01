@@ -43,6 +43,17 @@ public class PlayerController : MonoBehaviour
     bool beginJump = false;
 
 
+    public Vector3 GetVelocity()
+    {
+        return playerRB.velocity;
+    }
+
+    public bool IsOnFloor()
+    {
+        return onFloor;
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +86,7 @@ public class PlayerController : MonoBehaviour
         bool notInJumpCooldown = (Time.time - timeWhenLastJumped > jumpCooldown);
         canJump = (onFloor || coyoteCountdown > 0) && notInJumpCooldown;
 
+
         // Store the velocity in case they land on the ground in the next frame
         if (!onFloor && playerRB.velocity.y < 0)
         {
@@ -84,11 +96,15 @@ public class PlayerController : MonoBehaviour
         // If they've landed on the ground, do a camera shake
         if (!onFloorLastFrame && onFloor)
         {
-            CameraEffects.Instance.AddScreenShake(fallingVelocity / assumedTerminalVelocity);
+            if (fallingVelocity / assumedTerminalVelocity > 0.13f && fallingVelocity > 0 ) // slightly above velocity for same height jump
+            {
+                Debug.Log(fallingVelocity / assumedTerminalVelocity);
+                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
+            }
         }
 
         // Create object to vizualize trajectory
-        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
+       // Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
     }
 
 
@@ -120,7 +136,6 @@ public class PlayerController : MonoBehaviour
 
         if (onFloor)
         {
-            //Debug.Log("on floor");
             if (Mathf.Abs(movementDirection.x) > 0) // moving
             {
                 newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, groundMovementSmoothing * Time.fixedDeltaTime);
@@ -135,12 +150,14 @@ public class PlayerController : MonoBehaviour
 
             if (movementDirection.x != 0)
             {
+
                 // If you're already moving fast in a direction, don't slow down when you press that direction
                 if (Mathf.Sign(movementDirection.x) != Mathf.Sign(newVelocity.x) ||
                     Mathf.Abs(playerSpeed) > Mathf.Abs(newVelocity.x))
                 {
                     newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, airMovementSmoothing * Time.fixedDeltaTime);
                 }
+
             }
         }
 
