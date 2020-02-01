@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
         bool jumpInput = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W); // replace this line with matt's call
         crouchInput = Input.GetKey(KeyCode.S);
 
+
         if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
         {
             AudioManager.Instance.SetLoopingAndPlay("/* ~sf walking */");
@@ -151,6 +152,8 @@ public class PlayerController : MonoBehaviour
             AudioManager.Instance.StopLooping("/* ~sf walking */");
             // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
         }
+
+
 
 
         if (jumpInput && canJump)

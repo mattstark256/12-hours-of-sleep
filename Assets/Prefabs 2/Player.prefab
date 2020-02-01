@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 142870733}
   - component: {fileID: 8609339581666346309}
   - component: {fileID: 794053889}
+  - component: {fileID: 794053890}
+  - component: {fileID: 794053891}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -98,6 +100,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grappleDistance: 10
   rope: {fileID: 6855744094471572003}
+--- !u!114 &794053890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142870731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5ef41fa789e014283a74d7759f6690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathDelay: 0.1
+--- !u!114 &794053891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142870731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c73d73283ff0e4a981b8b811366e54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnHeight: 1
 --- !u!1 &946417498437596341
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,8 +272,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1453029765
-  m_SortingLayer: 0
+  m_SortingLayerID: -1053199727
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7b257b72a7fdfc489281d3b044a3d85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
