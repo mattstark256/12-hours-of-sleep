@@ -28,6 +28,7 @@ public class CameraEffects : MonoBehaviour
     Camera camera;
 
     ScreenShake screenShake;
+    ChromaticAberrationScript aberrations;
 
     // Start is called before the first frame update
     void Start()
@@ -46,5 +47,7 @@ public class CameraEffects : MonoBehaviour
         
         screenShake.AddTrauma(amount);
     }
+
+
 
 }

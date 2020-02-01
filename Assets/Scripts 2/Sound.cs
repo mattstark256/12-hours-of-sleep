@@ -14,7 +14,9 @@ public class Sound
     public AudioClip clip;
     [SerializeField]
     [Range(0,1)]
-    public float volume;
+    public float volume = 0.8f;
+    [SerializeField]
+    public bool loop;
     [HideInInspector]
     public AudioSource source;
 

@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour
             if(s.name == name)
             {
                 s.source.Play();
+                return;
             }
         }
         Debug.LogError(name + " sound effect does not exist");
@@ -43,7 +44,15 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+
+            s.source.volume = s.volume;
+
+            s.source.loop = s.loop;
+        }
     }
 
     // Update is called once per frame
