@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetPosition = player.transform.position + new Vector3(0,1,0);
+        targetPosition = player.transform.position + new Vector3(0,2.5f,0);
         float verticalDistanceFromCam = camPosition.y - (player.transform.position.y);
 
 
