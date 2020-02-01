@@ -116,7 +116,11 @@ public class PlayerController : MonoBehaviour
 
         if (inAirLastFrame && onFloor)
         {
-            CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity/assumedTerminalVelocity);
+            if(fallingVelocity / assumedTerminalVelocity > 0.13f)
+            {
+                Debug.Log(fallingVelocity / assumedTerminalVelocity);
+                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity/assumedTerminalVelocity);
+            }
             //fallingVelocity = 0;
         }
 
@@ -161,7 +165,6 @@ public class PlayerController : MonoBehaviour
 
         if (onFloor)
         {
-            //Debug.Log("on floor");
             if (Mathf.Abs(movementDirection.x) > 0) // moving
             {
                 newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, groundMovementSmoothing * Time.fixedDeltaTime);
@@ -177,7 +180,6 @@ public class PlayerController : MonoBehaviour
 
             if (movementDirection.x != 0)
             {
-                //Debug.Log("movement direction not 0");
                 newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, airMovementSmoothing * Time.fixedDeltaTime); 
             }
 

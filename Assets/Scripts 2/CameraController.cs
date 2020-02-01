@@ -22,7 +22,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     [Range(0,10)]
-    float maxDistanceFromCamera = 3;
+    float maxDistanceFromCameraUp = 2.4f;
+    
+    [SerializeField]
+    [Range(0,10)]
+    float maxDistanceFromCameraDown = 4f;
 
     Vector3 targetPosition;
      private Vector3 currentVelocity;
@@ -41,24 +45,24 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         targetPosition = player.transform.position + new Vector3(0,1,0);
-        float verticalDistanceFromCam = Mathf.Abs(camPosition.y - (player.transform.position.y));
+        float verticalDistanceFromCam = camPosition.y - (player.transform.position.y);
 
 
 
         camPosition.x = Mathf.Lerp(camPosition.x,targetPosition.x, horizontalCameraDamping * Time.deltaTime);
-        Debug.Log(verticalDistanceFromCam > maxDistanceFromCamera * 0.8f);
-        if (verticalDistanceFromCam > maxDistanceFromCamera * 0.8f || player.GetComponent<PlayerController>().IsOnFloor()) // dont move camera for little jumps
+       
+        if (Mathf.Abs(verticalDistanceFromCam) > maxDistanceFromCameraUp || player.GetComponent<PlayerController>().IsOnFloor()) // dont move camera for little jumps
         {
             camPosition.y = Mathf.Lerp(camPosition.y, targetPosition.y, verticalCameraDamping * Time.deltaTime);
         }
 
-        if (verticalDistanceFromCam > maxDistanceFromCamera)
+        if (Mathf.Abs(verticalDistanceFromCam) > maxDistanceFromCameraDown && verticalDistanceFromCam > 0)
         {
             // camPosition.y = Mathf.Lerp(camPosition.y, targetPosition.y, player.verticalCameraDamping * Time.deltaTime);
             // vector from player to camera
             //Vector3 playerTOcam = (new Vector3(camPosition.x,camPosition.y,0) -targetPosition).normalized;
             //camPosition.y = (player.transform.position + playerTOcam * maxDistanceFromCamera).y;
-            camPosition = Vector3.SmoothDamp(camPosition, targetPosition + new Vector3(0,0,-10), ref currentVelocity, 2/ Mathf.Abs(player.GetComponent<PlayerController>().GetVelocity().y));
+            camPosition = Vector3.SmoothDamp(camPosition, targetPosition + new Vector3(0,0,-10), ref currentVelocity, 2.5f/ Mathf.Abs(player.GetComponent<PlayerController>().GetVelocity().y));
         }
 
         transform.position = camPosition + screenShake.GetShakePosition();
