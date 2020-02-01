@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         // If they've landed on the ground, do a camera shake
         if (!onFloorLastFrame && onFloor)
         {
-            if (fallingVelocity / assumedTerminalVelocity > 0.13f)
+            if (fallingVelocity / assumedTerminalVelocity > 0.13f && fallingVelocity > 0 ) // slightly above velocity for same height jump
             {
                 Debug.Log(fallingVelocity / assumedTerminalVelocity);
                 CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Create object to vizualize trajectory
-        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
+       // Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
     }
 
 

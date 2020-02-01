@@ -23,3 +23,10 @@ public class Sound
 
 
 }
+
+//[System.Serializable]
+//public class Music : Sound
+//{
+//    [SerializeField]
+//    public bool symbolCrash;
+//}
