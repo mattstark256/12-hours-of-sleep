@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviour
     private float timeWhenLastJumped = 0;
     [SerializeField]
     private float coyoteTime = 0.1f;
-    private float timeWhenCoyoteKickedIn = 0;
+   // private float timeWhenCoyoteKickedIn = 0;
+    [SerializeField]
+    private float timeSinceOnFloor = 0;
 
     [SerializeField]
     private float assumedTerminalVelocity = 100;
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
         player = gameObject;
         playerRB = player.GetComponent<Rigidbody2D>();
 
-        spriteBounds = player.GetComponent<SpriteRenderer>().sprite.bounds;
+      
 
     }
 
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleInput();
 
-
+        
 
     }
   
@@ -73,27 +75,47 @@ public class PlayerController : MonoBehaviour
         bool inAirLastFrame = !onFloor;
         
        
+            
+        onFloor = Physics2D.Raycast(transform.position + Vector3.right*0.25f, Vector3.down, 0.1f, environment)
+               || Physics2D.Raycast(transform.position + Vector3.left*0.25f, Vector3.down, 0.1f, environment);
 
-        onFloor = Physics2D.Raycast(player.transform.position + spriteBounds.center - Vector3.right * spriteBounds.extents.x * 0.95f + Vector3.down * (spriteBounds.extents.y * 1.1f), Vector2.down, 0, environment)
-               || Physics2D.Raycast(player.transform.position + spriteBounds.center + Vector3.right * spriteBounds.extents.x * 0.95f + Vector3.down * (spriteBounds.extents.y * 1.1f), Vector2.down, 0, environment);
 
-        bool notInJumpCooldownn = (Time.time - timeWhenLastJumped > jumpCooldown);
-
-        if(onFloorLastFrame &&!onFloor) // coyote time kick in
+        if (onFloor)
         {
-            timeWhenCoyoteKickedIn = Time.time;
+            timeSinceOnFloor = coyoteTime;
+        }
+        else
+        {
+            timeSinceOnFloor = Mathf.Clamp(timeSinceOnFloor - Time.deltaTime, 0, coyoteTime);
         }
 
-        Debug.Log(fallingVelocity);
-        if(inAirLastFrame && onFloor)
+
+
+
+        //if(onFloorLastFrame &&!onFloor) // coyote time kick in
+        //{
+        //    timeWhenCoyoteKickedIn = Time.time;
+            
+        //}
+
+
+        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down*0.1f, Quaternion.identity);
+
+
+
+        if (inAirLastFrame && onFloor)
         {
             CameraEffects.Instance.AddScreenShake(fallingVelocity/assumedTerminalVelocity);
             //fallingVelocity = 0;
         }
 
-        bool pretendWeAreOnFloor = (Time.time - timeWhenCoyoteKickedIn < coyoteTime);
+        bool pretendWeAreOnFloor = timeSinceOnFloor > 0;
+
+
+        bool notInJumpCooldownn = (Time.time - timeWhenLastJumped > jumpCooldown);
 
         canJump = (onFloor || pretendWeAreOnFloor) && notInJumpCooldownn;
+
         if (!onFloor && playerRB.velocity.y < 0)
         {
             fallingVelocity = -playerRB.velocity.y;
@@ -118,6 +140,14 @@ public class PlayerController : MonoBehaviour
 
         Vector2 newVelocity = playerRB.velocity;
 
+        if (beginJump)
+        {
+            beginJump = false;
+            onFloor = false;
+            timeWhenLastJumped = Time.time;
+            newVelocity.y = jumpVelocity;
+        }
+
         if (onFloor)
         {
             //Debug.Log("on floor");
@@ -129,13 +159,6 @@ public class PlayerController : MonoBehaviour
             {
                 newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed,2* groundMovementSmoothing * Time.fixedDeltaTime);
 
-            }
-            if (beginJump)
-            {
-                beginJump = false;
-                onFloor = false;
-                timeWhenLastJumped = Time.time;
-                newVelocity.y += jumpVelocity;
             }
         }
         else // jumping or falling
