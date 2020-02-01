@@ -10,9 +10,14 @@ public class ChromaticAberrationScript : MonoBehaviour
     float defaultChromaticAberration = 0; 
 
     [SerializeField]
-    float traumaFactor = 0; 
-    [SerializeField]
     float aberrationFactor= 0;
+
+    [SerializeField]
+    float trauma = 0;
+    [SerializeField]
+    float traumaDropoffRate;
+    [SerializeField]
+    bool traumaDrop = true;
 
 
     [SerializeField]
@@ -31,9 +36,29 @@ public class ChromaticAberrationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        aberrationMat.SetFloat("_AberrationAmount", defaultChromaticAberration + traumaFactor * aberrationFactor);
+        TraumaDropOff();
+        aberrationMat.SetFloat("_AberrationAmount", defaultChromaticAberration + trauma * aberrationFactor);
     }
 
+    void TraumaDropOff()
+    {
 
+        if (trauma > 1) trauma = 1f;
+        if (trauma > 0 && traumaDrop == true) trauma -= traumaDropoffRate * Time.deltaTime;
+        if (trauma < 0) trauma = 0;
+    }
+
+    public void SetDefaultAberration(float value)
+    {
+        defaultChromaticAberration = value;
+    }
+    public void SetAberrationFactor(float value)
+    {
+        aberrationFactor = value;
+    }
+    public void SetAbberationTrauma(float value)
+    {
+        trauma = value;
+    }
 
 }

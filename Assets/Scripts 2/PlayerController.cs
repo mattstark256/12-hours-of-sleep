@@ -47,7 +47,18 @@ public class PlayerController : MonoBehaviour
     bool onFloor = false;
     bool onFloorLastFrame = false;
     bool beginJump = false;
-    
+
+
+    public Vector3 GetVelocity()
+    {
+        return playerRB.velocity;
+    }
+
+    public bool IsOnFloor()
+    {
+        return onFloor;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -99,13 +110,13 @@ public class PlayerController : MonoBehaviour
         //}
 
 
-        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down*0.1f, Quaternion.identity);
+      //  Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down*0.1f, Quaternion.identity);
 
-
+        
 
         if (inAirLastFrame && onFloor)
         {
-            CameraEffects.Instance.AddScreenShake(fallingVelocity/assumedTerminalVelocity);
+            CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity/assumedTerminalVelocity);
             //fallingVelocity = 0;
         }
 
