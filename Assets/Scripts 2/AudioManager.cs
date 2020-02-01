@@ -30,8 +30,8 @@ public class AudioManager : MonoBehaviour
 
     int currentMusicTrack = 0;
 
-    [SerializeField]
-    Sound symbol;
+    //[SerializeField]
+    //Sound cymbal;
 
 
     public void Play(string name)
@@ -82,6 +82,10 @@ public class AudioManager : MonoBehaviour
             m.source.loop = m.loop;
 
         }
+       // cymbal.source = gameObject.AddComponent<AudioSource>();
+       // cymbal.source.clip = cymbal.clip;
+       // cymbal.source.volume = cymbal.volume;
+       // cymbal.source.loop = cymbal.loop;
         Play(music[0].name);
     }
 
