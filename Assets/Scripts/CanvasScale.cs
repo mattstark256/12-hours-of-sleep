@@ -14,6 +14,8 @@ public class CanvasScale : MonoBehaviour
 
     [SerializeField]
     private Canvas canvas;
+    [SerializeField]
+    private float referenceHeight = 1080;
 
 
     private void Awake()
@@ -32,6 +34,12 @@ public class CanvasScale : MonoBehaviour
     public float GetCanvasScale()
     {
         return canvas.scaleFactor;
+    }
+
+
+    public float GetReferenceHeight()
+    {
+        return referenceHeight;
     }
 
 
