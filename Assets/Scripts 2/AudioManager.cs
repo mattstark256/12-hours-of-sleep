@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+   
 
     [SerializeField]
     Sound[] soundEffects;
@@ -94,7 +95,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayNextMusic()
     {
-        if (currentMusicTrack < music.Length)
+        if (currentMusicTrack < music.Length-1)
         {
             float currentTimeInTrack = music[currentMusicTrack].source.time;
             music[currentMusicTrack + 1].source.time = currentTimeInTrack;
