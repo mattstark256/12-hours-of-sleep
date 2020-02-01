@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum Action { MoveRight, MoveLeft, Jump, Interact, Test }
+public enum Action { MoveRight, MoveLeft, Jump, Crouch, Interact, Whip }
 
 
 public class InputMapper : MonoBehaviour

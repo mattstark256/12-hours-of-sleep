@@ -25,9 +25,9 @@ public class InputMappingTester : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inputMapper.GetButtonDown(Action.Test))
+        if (inputMapper.GetButtonDown(Action.Interact))
         {
-            Debug.Log("Action button pressed");
+            Debug.Log("Interact button pressed");
         }   
         if (inputMapper.GetButtonDown(Action.MoveLeft))
         {
