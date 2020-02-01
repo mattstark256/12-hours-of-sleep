@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     private float coyoteTime = 0.1f;
     private float timeWhenCoyoteKickedIn = 0;
 
+    [SerializeField]
+    private float assumedTerminalVelocity = 100;
+
     // other untiy bullshit
     private GameObject player;
     private Rigidbody2D playerRB;
@@ -35,9 +38,10 @@ public class PlayerController : MonoBehaviour
     // member variables
     private Vector2 movementDirection;
     private Bounds spriteBounds;
+    float fallingVelocity;
 
-    // flags for fixed update
-    bool canJump = false;
+   // flags for fixed update
+   bool canJump = false;
     bool onFloor = false;
     bool onFloorLastFrame = false;
     bool beginJump = false;
@@ -59,14 +63,17 @@ public class PlayerController : MonoBehaviour
     {
         HandleInput();
 
-
+        
 
     }
   
     void handleIfCanJump()
     {
-        
         onFloorLastFrame = onFloor;
+        bool inAirLastFrame = !onFloor;
+        
+       
+
         onFloor = Physics2D.Raycast(player.transform.position + spriteBounds.center - Vector3.right * spriteBounds.extents.x * 0.95f + Vector3.down * (spriteBounds.extents.y * 1.1f), Vector2.down, 0, environment)
                || Physics2D.Raycast(player.transform.position + spriteBounds.center + Vector3.right * spriteBounds.extents.x * 0.95f + Vector3.down * (spriteBounds.extents.y * 1.1f), Vector2.down, 0, environment);
 
@@ -77,11 +84,20 @@ public class PlayerController : MonoBehaviour
             timeWhenCoyoteKickedIn = Time.time;
         }
 
+        Debug.Log(fallingVelocity);
+        if(inAirLastFrame && onFloor)
+        {
+            CameraEffects.Instance.AddScreenShake(fallingVelocity/assumedTerminalVelocity);
+            //fallingVelocity = 0;
+        }
+
         bool pretendWeAreOnFloor = (Time.time - timeWhenCoyoteKickedIn < coyoteTime);
 
         canJump = (onFloor || pretendWeAreOnFloor) && notInJumpCooldownn;
-
-
+        if (!onFloor && playerRB.velocity.y < 0)
+        {
+            fallingVelocity = -playerRB.velocity.y;
+        }
     }
 
     void HandleInput() 
@@ -131,7 +147,7 @@ public class PlayerController : MonoBehaviour
                 newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, airMovementSmoothing * Time.fixedDeltaTime); 
             }
 
-            Instantiate(debugPrefab, transform.position, Quaternion.identity);
+           // Instantiate(debugPrefab, transform.position, Quaternion.identity);
         }
 
         playerRB.velocity = newVelocity;
