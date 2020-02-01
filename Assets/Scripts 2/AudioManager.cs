@@ -54,8 +54,75 @@ public class AudioManager : MonoBehaviour
         }
         Debug.LogError(name + " sound effect does not exist");
     }
+    public void Stop(string name)
+    {
+        foreach (Sound s in soundEffects)
+        {
+            if (s.name == name)
+            {
+                s.source.Stop();
+                return;
+            }
+        }
+        foreach (Sound m in music)
+        {
+            if (m.name == name)
+            {
+                m.source.Stop();
+                return;
+            }
+        }
+        Debug.LogError(name + " sound effect does not exist");
+    }
 
+    public bool IsPlaying(string name)
+    {
+        foreach (Sound s in soundEffects)
+        {
+            if (s.name == name)
+            {
+                return s.source.isPlaying;
+                
+            }
+        }
+        foreach (Sound m in music)
+        {
+            if (m.name == name)
+            {
+                return m.source.isPlaying;
+            }
+        }
+        Debug.LogError(name + " sound effect does not exist");
+        return false;
+    }
 
+    public void SetLoopingAndPlay(string name)
+    {
+        foreach (Sound s in soundEffects)
+        {
+            if (s.name == name)
+            {
+                s.loop = true;
+                s.source.Play();
+                return;
+            }
+        }
+        Debug.LogError(name + " sound effect does not exist");
+    }
+
+    public void StopLooping(string name)
+    {
+        foreach (Sound s in soundEffects)
+        {
+            if (s.name == name)
+            {
+                s.loop = false;
+               
+                return;
+            }
+        }
+        Debug.LogError(name + " sound effect does not exist");
+    }
 
 
     // Start is called before the first frame update
