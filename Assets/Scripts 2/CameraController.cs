@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
     float maxDistanceFromCamera = 3;
 
     Vector3 targetPosition;
-    // private Vector3 currentVelocity;
+     private Vector3 currentVelocity;
 
     Camera camera;
 
@@ -40,22 +40,25 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float verticalDistanceFromCam = camPosition.y - player.transform.position.y;
+        targetPosition = player.transform.position + new Vector3(0,1,0);
+        float verticalDistanceFromCam = Mathf.Abs(camPosition.y - (player.transform.position.y));
 
 
 
-        camPosition.x = Mathf.Lerp(camPosition.x, player.transform.position.x, horizontalCameraDamping * Time.deltaTime);
-
-        if(player.GetComponent<PlayerController>().IsOnFloor()) // dont move camera for little jumps
+        camPosition.x = Mathf.Lerp(camPosition.x,targetPosition.x, horizontalCameraDamping * Time.deltaTime);
+        Debug.Log(verticalDistanceFromCam > maxDistanceFromCamera * 0.8f);
+        if (verticalDistanceFromCam > maxDistanceFromCamera * 0.8f || player.GetComponent<PlayerController>().IsOnFloor()) // dont move camera for little jumps
         {
-            camPosition.y = Mathf.Lerp(camPosition.y, player.transform.position.y, verticalCameraDamping * Time.deltaTime);
+            camPosition.y = Mathf.Lerp(camPosition.y, targetPosition.y, verticalCameraDamping * Time.deltaTime);
         }
 
-        if(verticalDistanceFromCam > maxDistanceFromCamera)
+        if (verticalDistanceFromCam > maxDistanceFromCamera)
         {
+            // camPosition.y = Mathf.Lerp(camPosition.y, targetPosition.y, player.verticalCameraDamping * Time.deltaTime);
             // vector from player to camera
-            Vector3 playerTOcam = new Vector3(camPosition.x,camPosition.y,0) - player.transform.position;
-          //  camPosition.y = new player.transform.position + playerTOcam * maxDistanceFromCamera;
+            //Vector3 playerTOcam = (new Vector3(camPosition.x,camPosition.y,0) -targetPosition).normalized;
+            //camPosition.y = (player.transform.position + playerTOcam * maxDistanceFromCamera).y;
+            camPosition = Vector3.SmoothDamp(camPosition, targetPosition + new Vector3(0,0,-10), ref currentVelocity, 2/ Mathf.Abs(player.GetComponent<PlayerController>().GetVelocity().y));
         }
 
         transform.position = camPosition + screenShake.GetShakePosition();

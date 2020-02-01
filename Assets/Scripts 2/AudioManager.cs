@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            instance.Play("test");
+            instance.Play("loop");
         }
     }
 }
