@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         // If they've landed on the ground, do a camera shake
         if (!onFloorLastFrame && onFloor)
         {
-            if (fallingVelocity / assumedTerminalVelocity > 0.13f && fallingVelocity > 0 ) // slightly above velocity for same height jump
+            if (fallingVelocity / assumedTerminalVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
             {
                 Debug.Log(fallingVelocity / assumedTerminalVelocity);
                 CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
