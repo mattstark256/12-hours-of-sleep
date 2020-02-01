@@ -10,6 +10,8 @@ public class InputPanelTester : MonoBehaviour
     private InputFragment inputFragmentPrefab;
     [SerializeField]
     public KeyPickup keyPickup;
+    [SerializeField]
+    public FragmentPickup fragmentPickup;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,11 @@ public class InputPanelTester : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             inputPanelController.AddKey(keyPickup);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            inputPanelController.AddFragment(fragmentPickup);
         }
     }
 }

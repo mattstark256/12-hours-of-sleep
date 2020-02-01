@@ -310,4 +310,48 @@ public class InputPanelController : MonoBehaviour
 
         inputKeys.Add(newKey);
     }
+
+
+    public void AddFragment(FragmentPickup fragmentPickup) { StartCoroutine(AddFragmentCoroutine(fragmentPickup)); }
+    private IEnumerator AddFragmentCoroutine(FragmentPickup fragmentPickup)
+    {
+        InputFragment newFragment = Instantiate(fragmentPickup.GetFragmentPrefab(), fragmentParent);
+        Transform targetTransform = new GameObject("Fragment Target Transform").transform;
+        targetTransform.position = newFragment.transform.position;
+        targetTransform.rotation = newFragment.transform.rotation;
+        targetTransform.localScale = newFragment.transform.localScale;
+
+        // fragmentPickup is in world space while newFragment (a RectTransform) is in canvas space, so the following properties need to be transformed
+        Vector3 startPosition = Camera.main.WorldToScreenPoint(fragmentPickup.transform.position);
+        Quaternion startRotation = fragmentPickup.transform.rotation * Quaternion.Inverse(Camera.main.transform.rotation);
+        float scaleFactor = 1.0f / (Camera.main.orthographicSize * 2);
+        scaleFactor *= CanvasScale.Instance.GetReferenceHeight();
+        scaleFactor /= newFragment.GetComponent<RectTransform>().rect.height;
+        scaleFactor *= 3; // The sprite is 3 units tall because it's 100 pixels per unit and 300 pixels
+        Vector3 startScale = fragmentPickup.transform.localScale * scaleFactor;
+
+        Destroy(fragmentPickup.gameObject);
+
+        float f = 0;
+        while (f < 1)
+        {
+            f += Time.deltaTime / 0.6f;
+            if (f > 1) { f = 1; }
+
+            float smoothedF = Mathf.SmoothStep(0, 1, f);
+
+            newFragment.transform.position = Vector3.Lerp(startPosition, targetTransform.position, smoothedF);
+            newFragment.transform.rotation = Quaternion.Slerp(startRotation, targetTransform.localRotation, smoothedF);
+            newFragment.transform.localScale = Vector3.Lerp(startScale, targetTransform.localScale, smoothedF);
+
+            yield return null;
+        }
+
+        Destroy(targetTransform.gameObject);
+        inputFragments.Add(newFragment);
+        foreach (InputSlot inputSlot in newFragment.GetComponentsInChildren<InputSlot>())
+        {
+            inputSlots.Add(inputSlot);
+        }
+    }
 }
