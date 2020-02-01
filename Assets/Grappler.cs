@@ -6,6 +6,8 @@ public class Grappler : MonoBehaviour
 {
     [SerializeField]
     private float grappleDistance = 5;
+    [SerializeField]
+    private SpriteRenderer rope;
 
     private GrapplePoint[] grapplePoints;
 
@@ -21,12 +23,14 @@ public class Grappler : MonoBehaviour
         Debug.Log(grapplePoints.Length);
 
         playerRigidBody = GetComponent<Rigidbody2D>();
+
+        rope.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("looking for grapple");
             GrapplePoint nearestGrapplePoint = null;
@@ -49,14 +53,16 @@ public class Grappler : MonoBehaviour
                 grappling = true;
                 currentGrapplePoint = nearestGrapplePoint;
                 currentGrappleLength = shortestDistance;
+                rope.enabled = true;
             }
         }
 
-        if (grappling && !Input.GetKey(KeyCode.C))
+        if (grappling && !Input.GetKey(KeyCode.F))
         {
             // Stopped grappling
             grappling = false;
             currentGrapplePoint = null;
+            rope.enabled = false;
         }
 
     }
@@ -90,9 +96,22 @@ public class Grappler : MonoBehaviour
 
                 playerRigidBody.velocity = newVelocity;
 
-                //Debug.DrawLine(transform.position, transform.position + gravityForce / playerRigidBody.mass * Time.fixedDeltaTime);
+                //Debug.DrawLine(tran   sform.position, transform.position + gravityForce / playerRigidBody.mass * Time.fixedDeltaTime);
                 //Debug.DrawLine(transform.position, transform.position + forceVector / playerRigidBody.mass * Time.fixedDeltaTime);
             }
+
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (grappling)
+        {
+            Vector3 vectorToGrapplePoint = currentGrapplePoint.transform.position - transform.position;
+            rope.transform.position = transform.position + vectorToGrapplePoint * 0.5f;
+            float angleRad = Mathf.Atan2(vectorToGrapplePoint.y, vectorToGrapplePoint.x);
+            rope.transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * angleRad);
+            rope.transform.localScale = new Vector3(vectorToGrapplePoint.magnitude, 0.1f, 1);
         }
     }
 }
