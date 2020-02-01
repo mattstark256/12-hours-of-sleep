@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class InputPanelTester : MonoBehaviour
 {
-    InputPanelController inputPanelController;
-
     [SerializeField]
-    private InputFragment inputFragmentPrefab;
+    private InputPanelController inputPanelController;
     [SerializeField]
-    public KeyPickup keyPickup;
+    private KeyPickup keyPickup;
     [SerializeField]
-    public FragmentPickup fragmentPickup;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        inputPanelController = GetComponent<InputPanelController>();
-    }
+    private FragmentPickup fragmentPickup;
 
 
     // Update is called once per frame

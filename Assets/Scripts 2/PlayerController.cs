@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    
     // editor feilds
     [SerializeField]
     private float playerSpeed = 10;
     [SerializeField]
-    private float groundMovementSmoothing = 10; 
+    private float groundMovementSmoothing = 10;
     [SerializeField]
     private float airMovementSmoothing = 10;
 
@@ -26,9 +24,7 @@ public class PlayerController : MonoBehaviour
     private float timeWhenLastJumped = 0;
     [SerializeField]
     private float coyoteTime = 0.1f;
-   // private float timeWhenCoyoteKickedIn = 0;
-    [SerializeField]
-    private float timeSinceOnFloor = 0;
+    private float coyoteCountdown = 0;
 
     [SerializeField]
     private float assumedTerminalVelocity = 100;
@@ -39,13 +35,11 @@ public class PlayerController : MonoBehaviour
 
     // member variables
     private Vector2 movementDirection;
-    private Bounds spriteBounds;
     float fallingVelocity;
 
-   // flags for fixed update
-   bool canJump = false;
+    // flags for fixed update
+    bool canJump = false;
     bool onFloor = false;
-    bool onFloorLastFrame = false;
     bool beginJump = false;
 
 
@@ -63,11 +57,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+
         player = gameObject;
         playerRB = player.GetComponent<Rigidbody2D>();
 
-      
+
 
     }
 
@@ -76,68 +70,45 @@ public class PlayerController : MonoBehaviour
     {
         HandleInput();
 
-        
+
 
     }
-  
+
     void handleIfCanJump()
     {
-        onFloorLastFrame = onFloor;
-        bool inAirLastFrame = !onFloor;
-        
-       
-            
-        onFloor = Physics2D.Raycast(transform.position + Vector3.right*0.25f, Vector3.down, 0.1f, environment)
-               || Physics2D.Raycast(transform.position + Vector3.left*0.25f, Vector3.down, 0.1f, environment);
+        bool onFloorLastFrame = onFloor;
+
+        onFloor = Physics2D.Raycast(transform.position + Vector3.right * 0.25f, Vector3.down, 0.1f, environment)
+               || Physics2D.Raycast(transform.position + Vector3.left * 0.25f, Vector3.down, 0.1f, environment);
+
+        coyoteCountdown = (onFloor) ? coyoteTime : coyoteCountdown - Time.deltaTime;
+
+        bool notInJumpCooldown = (Time.time - timeWhenLastJumped > jumpCooldown);
+        canJump = (onFloor || coyoteCountdown > 0) && notInJumpCooldown;
 
 
-        if (onFloor)
-        {
-            timeSinceOnFloor = coyoteTime;
-        }
-        else
-        {
-            timeSinceOnFloor = Mathf.Clamp(timeSinceOnFloor - Time.deltaTime, 0, coyoteTime);
-        }
-
-
-
-
-        //if(onFloorLastFrame &&!onFloor) // coyote time kick in
-        //{
-        //    timeWhenCoyoteKickedIn = Time.time;
-            
-        //}
-
-
-      //  Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down*0.1f, Quaternion.identity);
-
-        
-
-        if (inAirLastFrame && onFloor)
-        {
-            if(fallingVelocity / assumedTerminalVelocity > 0.13f)
-            {
-                Debug.Log(fallingVelocity / assumedTerminalVelocity);
-                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity/assumedTerminalVelocity);
-            }
-            //fallingVelocity = 0;
-        }
-
-        bool pretendWeAreOnFloor = timeSinceOnFloor > 0;
-
-
-        bool notInJumpCooldownn = (Time.time - timeWhenLastJumped > jumpCooldown);
-
-        canJump = (onFloor || pretendWeAreOnFloor) && notInJumpCooldownn;
-
+        // Store the velocity in case they land on the ground in the next frame
         if (!onFloor && playerRB.velocity.y < 0)
         {
             fallingVelocity = -playerRB.velocity.y;
         }
+
+        // If they've landed on the ground, do a camera shake
+        if (!onFloorLastFrame && onFloor)
+        {
+            if (fallingVelocity / assumedTerminalVelocity > 0.13f)
+            {
+                Debug.Log(fallingVelocity / assumedTerminalVelocity);
+                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
+            }
+        }
+
+        // Create object to vizualize trajectory
+        Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
     }
 
-    void HandleInput() 
+
+    void HandleInput()
     {
         movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
 
@@ -145,7 +116,6 @@ public class PlayerController : MonoBehaviour
         if (jumpInput && canJump)
         {
             beginJump = true;
-            //canJump = false;
         }
     }
 
@@ -160,6 +130,7 @@ public class PlayerController : MonoBehaviour
             beginJump = false;
             onFloor = false;
             timeWhenLastJumped = Time.time;
+            coyoteCountdown = 0;
             newVelocity.y = jumpVelocity;
         }
 
@@ -171,8 +142,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed,2* groundMovementSmoothing * Time.fixedDeltaTime);
-
+                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, 2 * groundMovementSmoothing * Time.fixedDeltaTime);
             }
         }
         else // jumping or falling
@@ -180,10 +150,15 @@ public class PlayerController : MonoBehaviour
 
             if (movementDirection.x != 0)
             {
-                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, airMovementSmoothing * Time.fixedDeltaTime); 
-            }
 
-           // Instantiate(debugPrefab, transform.position, Quaternion.identity);
+                // If you're already moving fast in a direction, don't slow down when you press that direction
+                if (Mathf.Sign(movementDirection.x) != Mathf.Sign(newVelocity.x) ||
+                    Mathf.Abs(playerSpeed) > Mathf.Abs(newVelocity.x))
+                {
+                    newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, airMovementSmoothing * Time.fixedDeltaTime);
+                }
+
+            }
         }
 
         playerRB.velocity = newVelocity;
