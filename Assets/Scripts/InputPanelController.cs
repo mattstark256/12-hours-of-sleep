@@ -10,6 +10,8 @@ public class InputPanelController : MonoBehaviour
     [SerializeField]
     private Transform fragmentParent;
     [SerializeField]
+    private Transform keySpawnPoint;
+    [SerializeField]
     private Image dropShadow;
     [SerializeField]
     private Vector3 dropShadowOffset;
@@ -199,41 +201,41 @@ public class InputPanelController : MonoBehaviour
 
 
     // Do an animation where they break one by one
-    private IEnumerator BreakCoroutine()
-    {
-        while (keysToBreak.Count > 0 || fragmentsToBreak.Count > 0)
-        {
-            bool itemBroken = false;
-            if (keysToBreak.Count > 0 && Random.value < 0.5)
-            {
-                InputKey inputKey = keysToBreak[Random.Range(0, keysToBreak.Count)];
-                keysToBreak.Remove(inputKey);
-                BreakKey(inputKey);
-                itemBroken = true;
-            }
-            else
-            {
-                InputFragment inputFragment = fragmentsToBreak[Random.Range(0, fragmentsToBreak.Count)];
-                // Only break a fragment once any keys in it have been broken
-                bool fragmentContainsKeys = false;
-                foreach (InputSlot inputSlot in inputFragment.GetComponentsInChildren<InputSlot>())
-                {
-                    if (inputSlot.GetInputKey() != null)
-                    {
-                        fragmentContainsKeys = true;
-                        break;
-                    }
-                }
-                if (!fragmentContainsKeys)
-                {
-                    fragmentsToBreak.Remove(inputFragment);
-                    BreakFragment(inputFragment);
-                    itemBroken = true;
-                }
-            }
-            if (itemBroken) { yield return new WaitForSeconds(0.2f); }
-        }
-    }
+    //private IEnumerator BreakCoroutine()
+    //{
+    //    while (keysToBreak.Count > 0 || fragmentsToBreak.Count > 0)
+    //    {
+    //        bool itemBroken = false;
+    //        if (keysToBreak.Count > 0 && Random.value < 0.5)
+    //        {
+    //            InputKey inputKey = keysToBreak[Random.Range(0, keysToBreak.Count)];
+    //            keysToBreak.Remove(inputKey);
+    //            BreakKey(inputKey);
+    //            itemBroken = true;
+    //        }
+    //        else
+    //        {
+    //            InputFragment inputFragment = fragmentsToBreak[Random.Range(0, fragmentsToBreak.Count)];
+    //            // Only break a fragment once any keys in it have been broken
+    //            bool fragmentContainsKeys = false;
+    //            foreach (InputSlot inputSlot in inputFragment.GetComponentsInChildren<InputSlot>())
+    //            {
+    //                if (inputSlot.GetInputKey() != null)
+    //                {
+    //                    fragmentContainsKeys = true;
+    //                    break;
+    //                }
+    //            }
+    //            if (!fragmentContainsKeys)
+    //            {
+    //                fragmentsToBreak.Remove(inputFragment);
+    //                BreakFragment(inputFragment);
+    //                itemBroken = true;
+    //            }
+    //        }
+    //        if (itemBroken) { yield return new WaitForSeconds(0.2f); }
+    //    }
+    //}
 
 
     private void BreakKey(InputKey inputKey)
@@ -271,5 +273,41 @@ public class InputPanelController : MonoBehaviour
         {
             inputSlots.Remove(inputSlot);
         }
+    }
+
+
+    public void AddKey(KeyPickup keyPickup)    {        StartCoroutine(AddKeyCoroutine(keyPickup));    }
+    private IEnumerator AddKeyCoroutine(KeyPickup keyPickup)
+    {
+        InputKey newKey = Instantiate(keyPickup.GetKeyPrefab(), keyParent);
+        newKey.transform.SetAsLastSibling();
+
+        // keyPickup is in world space while newKey (a RectTransform) is in canvas space, so the following properties need to be transformed
+        Vector3 startPosition = Camera.main.WorldToScreenPoint(keyPickup.transform.position);
+        Quaternion startRotation = keyPickup.transform.rotation * Quaternion.Inverse(Camera.main.transform.rotation);
+        float scaleFactor = 1.0f / (Camera.main.orthographicSize * 2);
+        scaleFactor *= CanvasScale.Instance.GetReferenceHeight();
+        scaleFactor /= newKey.GetComponent<RectTransform>().rect.height;
+        Vector3 startScale = keyPickup.transform.localScale * scaleFactor;
+
+        Destroy(keyPickup.gameObject);
+
+
+        float f = 0;
+        while (f < 1)
+        {
+            f += Time.deltaTime / 0.6f;
+            if (f > 1) { f = 1; }
+
+            float smoothedF = Mathf.SmoothStep(0, 1, f);
+
+            newKey.transform.position = Vector3.Lerp(startPosition, keySpawnPoint.position, smoothedF);
+            newKey.transform.rotation = Quaternion.Slerp(startRotation, keySpawnPoint.localRotation, smoothedF);
+            newKey.transform.localScale = Vector3.Lerp(startScale, keySpawnPoint.localScale, smoothedF);
+                        
+            yield return null;
+        }
+
+        inputKeys.Add(newKey);
     }
 }
