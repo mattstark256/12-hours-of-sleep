@@ -195,7 +195,11 @@ public class InputPanelController : MonoBehaviour
 
         draggingEnabled = true;
 
+        if (CameraEffects.Instance != null)
+        {
         CameraEffects.Instance.AddScreenShakeAndChromaticAberration(1);
+
+        }
 
         // Unused alternative animation
         //StartCoroutine(BreakCoroutine());
