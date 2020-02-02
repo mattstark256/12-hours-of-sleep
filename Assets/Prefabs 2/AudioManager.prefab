@@ -45,27 +45,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffects:
   - name: button
-    clip: {fileID: 8300000, guid: f9aa6f00d3b8e174faa967765a8ce816, type: 3}
+    clip: {fileID: 8300000, guid: 7157d6f83ac6cd54ba9d410eb9cfcbed, type: 3}
     volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: crouch
-    clip: {fileID: 8300000, guid: c4cd98e3c801c194a9ad1049fcf3312b, type: 3}
+    clip: {fileID: 8300000, guid: ea4ec1917ca3b764da78649a23413bfa, type: 3}
     volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: game_break
     clip: {fileID: 8300000, guid: e2b5fb0f824f3144eaff705c06d1f2f2, type: 3}
-    volume: 0.8
+    volume: 0.59
     loop: 0
     source: {fileID: 0}
   - name: grapple_connect
-    clip: {fileID: 8300000, guid: dd4c74208dcadd848a3480cb63b628d4, type: 3}
+    clip: {fileID: 8300000, guid: e5ba96c06d921a741b7f59df5351a527, type: 3}
     volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: grapple_disconect
-    clip: {fileID: 8300000, guid: 5d456d7c4045a0d45be7dac4b7b500b9, type: 3}
+    clip: {fileID: 8300000, guid: 15c5e33c6dba7ce4083e5945171e7f80, type: 3}
     volume: 0.8
     loop: 0
     source: {fileID: 0}
@@ -90,8 +90,8 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: normal_landing
-    clip: {fileID: 8300000, guid: 13a92c30ad38c0240a53a01f675d8838, type: 3}
-    volume: 0.4
+    clip: {fileID: 8300000, guid: 115f42f18b52ce1488ee1f2a95d00834, type: 3}
+    volume: 0.33
     loop: 0
     source: {fileID: 0}
   - name: heavy_landing
@@ -100,23 +100,28 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: rumble
-    clip: {fileID: 8300000, guid: 96e00be216129094a839b797c424afd2, type: 3}
+    clip: {fileID: 8300000, guid: 983b037014a22ff49ba748be2e8928a1, type: 3}
     volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: start_game
     clip: {fileID: 8300000, guid: 3aab0051d12a20840a5e08c23e53b493, type: 3}
     volume: 0.8
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: walking
     clip: {fileID: 8300000, guid: 12d2f7814d3939642807ba04245eb8b4, type: 3}
     volume: 1
     loop: 0
     source: {fileID: 0}
-  - name: UnCrouch
+  - name: uncrouch
     clip: {fileID: 8300000, guid: 934f6bc1f136b9f4e8ba307e01c3e508, type: 3}
     volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: crouch_walk
+    clip: {fileID: 8300000, guid: 0b4c70d13bba0ba47966ff9244c276d0, type: 3}
+    volume: 0.84
     loop: 0
     source: {fileID: 0}
   music:
@@ -149,10 +154,4 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 34faf78783015cd46bb95136b20eb6d0, type: 3}
     volume: 0.7
     loop: 1
-    source: {fileID: 0}
-  symbol:
-    name: 
-    clip: {fileID: 0}
-    volume: 0.8
-    loop: 0
     source: {fileID: 0}
