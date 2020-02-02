@@ -52,6 +52,11 @@ public class InputBreaker : MonoBehaviour
             yield return null;
         }
 
+            AudioManager.Instance.PlayNextMusic();
+            AudioManager.Instance.Play("game_break");
+            inputPanelController.Break();
+            broken = true;
+            
         Destroy(breakPopup.gameObject);
         AudioManager.Instance.Play("game_break");
         inputPanelController.Break();

@@ -25,6 +25,7 @@ public class Respawn : MonoBehaviour
         {
             if(!checkpoint.IsLit())
             {
+                AudioManager.Instance.Play("checkpoint");
                 checkpoint.SetLit(true);
                 respawnPoint = checkpoint.transform.position + Vector3.up * respawnHeight;
             }
