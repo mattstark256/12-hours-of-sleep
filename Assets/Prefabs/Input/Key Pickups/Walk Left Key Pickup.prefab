@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1524505586121248129}
   - component: {fileID: 1524505586121248191}
+  - component: {fileID: 8163612726043238107}
   m_Layer: 0
   m_Name: Walk Left Key Pickup
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1524505586121248128}
   m_LocalRotation: {x: -0, y: -0, z: -0.26617667, w: 0.9639243}
   m_LocalPosition: {x: 2.49, y: -1.71, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 5177065430436984853}
   m_Father: {fileID: 0}
@@ -46,6 +47,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyPrefab: {fileID: 2312083365440839802, guid: dd118f23d9898c543a49679531fc868c,
     type: 3}
+--- !u!58 &8163612726043238107
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524505586121248128}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &5400654739251596587
 GameObject:
   m_ObjectHideFlags: 0
