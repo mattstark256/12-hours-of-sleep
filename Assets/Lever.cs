@@ -22,7 +22,7 @@ public class Lever : Interactable
 
     private float resetCountdown;
 
-    // Levers can only be interacted with once (for now).
+    [SerializeField]
     private bool switched = false;
 
 
@@ -33,6 +33,7 @@ public class Lever : Interactable
 
     public override void Interact()
     {
+        AudioManager.Instance.Play("lever");
         base.Interact();
 
         SetSwitchedState(!switched);
