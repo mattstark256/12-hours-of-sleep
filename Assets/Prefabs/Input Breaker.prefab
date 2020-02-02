@@ -95,6 +95,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputPanelController: {fileID: 0}
+  breakPopupPrefab: {fileID: 7879024055364542246, guid: 0ae64a26e2ff86c4189c2331c58ebfe7,
+    type: 3}
+  breakPopupParent: {fileID: 0}
 --- !u!61 &6861195568640285561
 BoxCollider2D:
   m_ObjectHideFlags: 0
