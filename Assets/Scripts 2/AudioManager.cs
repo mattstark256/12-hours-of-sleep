@@ -30,8 +30,8 @@ public class AudioManager : MonoBehaviour
 
     int currentMusicTrack = 0;
 
-    [SerializeField]
-    Sound symbol;
+    //[SerializeField]
+    //Sound symbol;
 
 
     public void Play(string name)
