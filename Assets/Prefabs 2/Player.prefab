@@ -106,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grappleDistance: 10
   rope: {fileID: 6855744094471572003}
+  grappleOffset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &794053890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1bfaa6e7bc27c6948b58c0424834de8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 125d6365d848eca4396360d8fd036e50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
