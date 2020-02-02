@@ -8,10 +8,19 @@ public class Lever : Interactable
     private Powerable powerable;
 
     [SerializeField]
-    GameObject on;
+    private Sprite on;
 
     [SerializeField]
-    GameObject off;
+    private Sprite off;
+
+    [SerializeField]
+    private float timeToReset = 3f;
+    [SerializeField]
+    private bool doReset;
+
+
+
+    private float resetCountdown;
 
     // Levers can only be interacted with once (for now).
     private bool switched = false;
@@ -27,19 +36,42 @@ public class Lever : Interactable
         AudioManager.Instance.Play("lever");
         base.Interact();
 
-        switched = !switched;
-        powerable.SetPowered(switched);
+        SetSwitchedState(!switched);
     }
 
     private void Update()
     {
+        if (doReset)
+        {
+            resetCountdown -= Time.deltaTime;
+
+            if (resetCountdown < 0)
+            {
+                SetSwitchedState(false);
+            }
+        }
+    }
+
+    private void SetSwitchedState(bool _switched)
+    {
+        Debug.Log("SWITCHED");
+        switched = _switched;
+        powerable.SetPowered(switched);
+
         if (switched)
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = on.GetComponent<SpriteRenderer>().sprite;
+            resetCountdown = timeToReset;
+        }
+
+
+
+        if (switched)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = on;
         }
         else
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = off.GetComponent<SpriteRenderer>().sprite;
+            gameObject.GetComponent<SpriteRenderer>().sprite = off;
         }
     }
 }
