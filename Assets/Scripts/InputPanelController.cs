@@ -66,6 +66,11 @@ public class InputPanelController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            draggingEnabled = true;
+        }
+
         if (draggingEnabled)
         {
             if (!dragging)
