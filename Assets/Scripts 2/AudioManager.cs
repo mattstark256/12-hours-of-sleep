@@ -160,7 +160,7 @@ public class AudioManager : MonoBehaviour
         }
         if(music.Length > 0)
         {
-            //Play(music[0].name);
+            Play(music[0].name);
         }
     }
 

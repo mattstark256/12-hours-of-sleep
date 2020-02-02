@@ -33,6 +33,7 @@ public class Lever : Interactable
 
     public override void Interact()
     {
+        AudioManager.Instance.Play("lever");
         base.Interact();
 
         SetSwitchedState(!switched);

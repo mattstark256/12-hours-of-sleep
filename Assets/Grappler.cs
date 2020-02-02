@@ -50,6 +50,7 @@ public class Grappler : MonoBehaviour
                 // A valid grapple point has been found.
                 //Debug.Log("connecting to grapple");
 
+                AudioManager.Instance.Play("grapple_connect");
                 grappling = true;
                 currentGrapplePoint = nearestGrapplePoint;
                 currentGrappleLength = shortestDistance;
@@ -60,6 +61,7 @@ public class Grappler : MonoBehaviour
         if (grappling && !InputMapper.Instance.GetButton(Action.Whip))
         {
             // Stopped grappling
+            AudioManager.Instance.Play("grapple_disconnect");
             grappling = false;
             currentGrapplePoint = null;
             rope.enabled = false;
