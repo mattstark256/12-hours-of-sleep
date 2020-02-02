@@ -33,6 +33,7 @@ public class Respawn : MonoBehaviour
 
     public void RespawnAtCheckpoint()
     {
+        AudioManager.Instance.Play("hit");
         gameObject.SetActive(false);
         transform.position = respawnPoint;
         playerRB.velocity = Vector3.zero;

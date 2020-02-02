@@ -66,6 +66,11 @@ public class InputPanelController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            draggingEnabled = true;
+        }
+
         if (draggingEnabled)
         {
             if (!dragging)
@@ -126,6 +131,8 @@ public class InputPanelController : MonoBehaviour
 
         dropShadow.enabled = true;
         dropShadow.transform.position = draggedKey.transform.position + CanvasScale.Instance.CanvasToWorld(dropShadowOffset);
+
+        AudioManager.Instance.Play("key_pickup");
     }
 
 
@@ -156,6 +163,7 @@ public class InputPanelController : MonoBehaviour
 
         if (nearestSlot != null)
         {
+            AudioManager.Instance.Play("key_insert");
             // Remove the key that was occupying the slot
             InputKey replacedKey = nearestSlot.GetInputKey();
             if (replacedKey != null)
@@ -195,7 +203,11 @@ public class InputPanelController : MonoBehaviour
 
         draggingEnabled = true;
 
+        if (CameraEffects.Instance != null)
+        {
         CameraEffects.Instance.AddScreenShakeAndChromaticAberration(1);
+
+        }
 
         // Unused alternative animation
         //StartCoroutine(BreakCoroutine());

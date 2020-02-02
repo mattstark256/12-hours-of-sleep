@@ -13,6 +13,16 @@ public class InputBreaker : MonoBehaviour
     {
         if (!broken)
         {
+            AudioManager.Instance.Play("game_break");
+            inputPanelController.Break();
+            broken = true;
+        }
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F2)&& Input.GetKeyDown(KeyCode.F5))
+        if (!broken)
+        {
             inputPanelController.Break();
             broken = true;
         }

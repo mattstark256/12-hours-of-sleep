@@ -11,6 +11,12 @@ public class Door : Powerable
     [SerializeField]
     private float closeDuration = 1f;
 
+    //[SerializeField]
+    //private bool isElevator = false;
+
+    [SerializeField]
+    bool dispayPowered;
+
     float openFraction = 0f;
 
     private Vector3 startPos;
@@ -47,6 +53,7 @@ public class Door : Powerable
     // Update is called once per frame
     void Update()
     {
+        dispayPowered = base.powered;
         //if (doorCond == DOORSTATE.OPENING)
         //{
         //    openAmount += Time.deltaTime / openDuration;
@@ -59,10 +66,32 @@ public class Door : Powerable
         if (powered)
         {
             openFraction += Time.deltaTime / openDuration;
+            if(openFraction > 0.95f)
+            {
+                AudioManager.Instance.StopLooping("door_movement");
+            }
+            else
+            {
+                AudioManager.Instance.SetLoopingAndPlay("door_movement");
+            }
+
         }
         else
         {
+            bool previouslyOpen = openFraction > 0;
             openFraction -= Time.deltaTime / closeDuration;
+            if (previouslyOpen)
+            {
+                if (openFraction <= 0)
+                {
+                    AudioManager.Instance.StopLooping("door_movement");
+                    AudioManager.Instance.Play("door_impact");
+                }
+                else
+                {
+                    AudioManager.Instance.SetLoopingAndPlay("door_movement");
+                }
+            }
         }
         openFraction = Mathf.Clamp01(openFraction);
 
@@ -78,6 +107,21 @@ public class Door : Powerable
         //        timeOpen = 3f;
         //    }
         //}
+    }
+
+    public override void SetPowered(bool _powered)
+    {
+        //if (powered && _powered==false)
+        //{
+        //    AudioManager.Instance.StopLooping("door_movement");
+        //}
+
+        base.SetPowered(_powered);
+        
+        if(_powered == false)
+        {
+            AudioManager.Instance.StopLooping("door_movement");
+        }
     }
 
 

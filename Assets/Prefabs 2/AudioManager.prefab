@@ -51,12 +51,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: crouch
     clip: {fileID: 8300000, guid: ea4ec1917ca3b764da78649a23413bfa, type: 3}
-    volume: 0.8
+    volume: 1
     loop: 0
     source: {fileID: 0}
   - name: game_break
     clip: {fileID: 8300000, guid: e2b5fb0f824f3144eaff705c06d1f2f2, type: 3}
-    volume: 0.59
+    volume: 0.35
     loop: 0
     source: {fileID: 0}
   - name: grapple_connect
@@ -64,14 +64,14 @@ MonoBehaviour:
     volume: 0.8
     loop: 0
     source: {fileID: 0}
-  - name: grapple_disconect
+  - name: grapple_disconnect
     clip: {fileID: 8300000, guid: 15c5e33c6dba7ce4083e5945171e7f80, type: 3}
-    volume: 0.8
+    volume: 0.6
     loop: 0
     source: {fileID: 0}
   - name: hit
     clip: {fileID: 8300000, guid: 3f7d0843635c7c44ba20181dff6b5b30, type: 3}
-    volume: 0.8
+    volume: 0.65
     loop: 0
     source: {fileID: 0}
   - name: jump
@@ -81,22 +81,22 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: key_insert
     clip: {fileID: 8300000, guid: 012552f90c7ad3140a001d54a6984138, type: 3}
-    volume: 0.8
+    volume: 0.85
     loop: 0
     source: {fileID: 0}
   - name: key_pickup
     clip: {fileID: 8300000, guid: 4f2b4dc748b28974aa740ec1df9f536f, type: 3}
-    volume: 0.8
+    volume: 0.64
     loop: 0
     source: {fileID: 0}
   - name: normal_landing
     clip: {fileID: 8300000, guid: 115f42f18b52ce1488ee1f2a95d00834, type: 3}
-    volume: 0.33
+    volume: 0.5
     loop: 0
     source: {fileID: 0}
   - name: heavy_landing
     clip: {fileID: 8300000, guid: a3ab5e092752de9479a11a8c7d73df6a, type: 3}
-    volume: 0.8
+    volume: 0.45
     loop: 0
     source: {fileID: 0}
   - name: rumble
@@ -121,37 +121,62 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: crouch_walk
     clip: {fileID: 8300000, guid: 0b4c70d13bba0ba47966ff9244c276d0, type: 3}
-    volume: 0.84
+    volume: 0.9
+    loop: 0
+    source: {fileID: 0}
+  - name: lever
+    clip: {fileID: 8300000, guid: 21acdf12da1ef9745a2b85377920b75a, type: 3}
+    volume: 0.4
+    loop: 0
+    source: {fileID: 0}
+  - name: checkpoint
+    clip: {fileID: 8300000, guid: 545b672331d1ebb4e9878d513eadc7ef, type: 3}
+    volume: 0.6
+    loop: 0
+    source: {fileID: 0}
+  - name: door_movement
+    clip: {fileID: 8300000, guid: 0585806385d551b43b2e54d5d1fe9a5f, type: 3}
+    volume: 0.6
+    loop: 0
+    source: {fileID: 0}
+  - name: door_impact
+    clip: {fileID: 8300000, guid: b8a7e389d932944449869605e908b1f1, type: 3}
+    volume: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: menu_select
+    clip: {fileID: 8300000, guid: 90416635e16a9534594222387bca31b3, type: 3}
+    volume: 0.6
     loop: 0
     source: {fileID: 0}
   music:
   - name: music_0
     clip: {fileID: 8300000, guid: 48de18887131f4a4e9cbfbd9ef1aa395, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
   - name: music_1
     clip: {fileID: 8300000, guid: 9f1c7bc81d0a8fc4bba69c0b0e61f767, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
   - name: music_2
     clip: {fileID: 8300000, guid: 318aa35bc5e9c8c4a95ab3f5ca0452d8, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
   - name: music_3
     clip: {fileID: 8300000, guid: 2c2b797326509b14283eceea682924d6, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
   - name: music_4
     clip: {fileID: 8300000, guid: 1fe679b583cd71943aba1b152c1be752, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
   - name: music_5
     clip: {fileID: 8300000, guid: 34faf78783015cd46bb95136b20eb6d0, type: 3}
-    volume: 0.7
+    volume: 0.17
     loop: 1
     source: {fileID: 0}
