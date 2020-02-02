@@ -40,7 +40,10 @@ public class AudioManager : MonoBehaviour
         {
             if(s.name == name)
             {
-                s.source.Play();
+                if (!s.source.isPlaying)
+                {
+                    s.source.Play();
+                }
                 return;
             }
         }
@@ -48,7 +51,10 @@ public class AudioManager : MonoBehaviour
         {
             if(m.name == name)
             {
-                m.source.Play();
+                if (!m.source.isPlaying)
+                {
+                   m.source.Play();
+                }
                 return;
             }
         }
@@ -103,7 +109,10 @@ public class AudioManager : MonoBehaviour
             if (s.name == name)
             {
                 s.loop = true;
-                s.source.Play();
+                if (!s.source.isPlaying)
+                {
+                    s.source.Play();
+                }
                 return;
             }
         }
@@ -151,7 +160,7 @@ public class AudioManager : MonoBehaviour
         }
         if(music.Length > 0)
         {
-            Play(music[0].name);
+            //Play(music[0].name);
         }
     }
 
