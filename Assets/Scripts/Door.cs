@@ -9,7 +9,7 @@ public class Door : Powerable
     [SerializeField]
     private float openDuration = 2f;
     [SerializeField]
-    private float timeOpen = 3f;
+    private float closeDuration = 1f;
 
     float openFraction = 0f;
 
@@ -62,22 +62,22 @@ public class Door : Powerable
         }
         else
         {
-            openFraction -= Time.deltaTime / openDuration;
+            openFraction -= Time.deltaTime / closeDuration;
         }
         openFraction = Mathf.Clamp01(openFraction);
 
         transform.position = startPos + openFraction * Vector3.up * openDistance;
 
         // Door closes after short period of time
-        if (openFraction >= 0.99 && powered)
-        {
-            timeOpen -= Time.deltaTime;
-            if (timeOpen <= 0)
-            {
-                powered = false;
-                timeOpen = 3f;
-            }
-        }
+        //if (openFraction >= 0.99 && powered)
+        //{
+        //    timeOpen -= Time.deltaTime;
+        //    if (timeOpen <= 0)
+        //    {
+        //        powered = false;
+        //        timeOpen = 3f;
+        //    }
+        //}
     }
 
 
