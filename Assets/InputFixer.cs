@@ -12,12 +12,14 @@ public class InputFixer : MonoBehaviour
         FragmentPickup fragmentPickup = collision.GetComponent<FragmentPickup>();
         if (fragmentPickup != null)
         {
+            AudioManager.Instance.Play("collect_fragment");
             inputPanelController.AddFragment(fragmentPickup);
         }
 
         KeyPickup keyPickup = collision.GetComponent<KeyPickup>();
         if (keyPickup != null)
         {
+            AudioManager.Instance.Play("collect_key");
             Debug.Log("adding key");
             inputPanelController.AddKey(keyPickup);
         }

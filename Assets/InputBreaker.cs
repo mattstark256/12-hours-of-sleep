@@ -13,6 +13,7 @@ public class InputBreaker : MonoBehaviour
     {
         if (!broken)
         {
+            AudioManager.Instance.PlayNextMusic();
             AudioManager.Instance.Play("game_break");
             inputPanelController.Break();
             broken = true;
