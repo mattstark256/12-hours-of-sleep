@@ -11,6 +11,9 @@ public class Door : Powerable
     [SerializeField]
     private float closeDuration = 1f;
 
+    //[SerializeField]
+    //private bool isElevator = false;
+
     [SerializeField]
     bool dispayPowered;
 
