@@ -7,7 +7,8 @@ public class Interactor : MonoBehaviour
     private bool interactPressed = false;
     private void Update()
     {
-        interactPressed = Input.GetKeyDown(KeyCode.E);
+        //interactPressed = Input.GetKeyDown(KeyCode.E);
+        interactPressed = InputMapper.Instance.GetButtonDown(Action.Interact);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

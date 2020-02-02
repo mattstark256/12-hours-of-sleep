@@ -195,6 +195,8 @@ public class InputPanelController : MonoBehaviour
 
         draggingEnabled = true;
 
+        CameraEffects.Instance.AddScreenShakeAndChromaticAberration(1);
+
         // Unused alternative animation
         //StartCoroutine(BreakCoroutine());
     }
@@ -253,7 +255,11 @@ public class InputPanelController : MonoBehaviour
             positionVector + (Vector3)Random.insideUnitCircle * 500f,
             Random.Range(-360, 360));
         InputSlot inputSlot = inputKey.GetInputSlot();
-        if (inputSlot != null) { inputSlot.SetInputKey(null); }
+        if (inputSlot != null)
+        {
+            inputSlot.SetInputKey(null);
+            InputMapper.Instance.RemoveMapping(inputSlot.GetAction());
+        }
         inputKey.SetInputSlot(null);
         inputKeys.Remove(inputKey);
     }
@@ -272,11 +278,12 @@ public class InputPanelController : MonoBehaviour
         foreach (InputSlot inputSlot in inputFragment.GetComponentsInChildren<InputSlot>())
         {
             inputSlots.Remove(inputSlot);
+            InputMapper.Instance.RemoveMapping(inputSlot.GetAction());
         }
     }
 
 
-    public void AddKey(KeyPickup keyPickup)    {        StartCoroutine(AddKeyCoroutine(keyPickup));    }
+    public void AddKey(KeyPickup keyPickup) { StartCoroutine(AddKeyCoroutine(keyPickup)); }
     private IEnumerator AddKeyCoroutine(KeyPickup keyPickup)
     {
         InputKey newKey = Instantiate(keyPickup.GetKeyPrefab(), keyParent);
@@ -304,7 +311,7 @@ public class InputPanelController : MonoBehaviour
             newKey.transform.position = Vector3.Lerp(startPosition, keySpawnPoint.position, smoothedF);
             newKey.transform.rotation = Quaternion.Slerp(startRotation, keySpawnPoint.localRotation, smoothedF);
             newKey.transform.localScale = Vector3.Lerp(startScale, keySpawnPoint.localScale, smoothedF);
-                        
+
             yield return null;
         }
 
@@ -332,6 +339,7 @@ public class InputPanelController : MonoBehaviour
 
         Destroy(fragmentPickup.gameObject);
 
+
         float f = 0;
         while (f < 1)
         {
@@ -353,5 +361,7 @@ public class InputPanelController : MonoBehaviour
         {
             inputSlots.Add(inputSlot);
         }
+
+        AudioManager.Instance.PlayNextMusic();
     }
 }

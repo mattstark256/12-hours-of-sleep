@@ -28,6 +28,9 @@ public class CameraController : MonoBehaviour
     [Range(0,10)]
     float maxDistanceFromCameraDown = 4f;
 
+    [SerializeField]
+    float verticalOffset = 2.5f;
+
     Vector3 targetPosition;
      private Vector3 currentVelocity;
 
@@ -39,6 +42,8 @@ public class CameraController : MonoBehaviour
     {
         screenShake = GetComponent<ScreenShake>();
         camera = GetComponent<Camera>();
+
+        camPosition = player.transform.position + Vector3.up * verticalOffset;
     }
 
     // Update is called once per frame
@@ -46,7 +51,7 @@ public class CameraController : MonoBehaviour
     {
         Vector3 targetPosition = camPosition;
         targetPosition.x = player.transform.position.x;
-        float targetY = player.transform.position.y + 2.5f;
+        float targetY = player.transform.position.y + verticalOffset;
         targetPosition.y = (player.GetComponent<PlayerController>().IsOnFloor()) ?
             targetY :
             Mathf.Clamp(targetPosition.y, targetY - maxDistanceFromCameraUp, targetY + maxDistanceFromCameraDown);

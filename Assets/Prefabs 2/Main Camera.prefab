@@ -103,8 +103,8 @@ MonoBehaviour:
   player: {fileID: 0}
   horizontalCameraDamping: 3
   verticalCameraDamping: 3
-  maxDistanceFromCameraUp: 2.4
-  maxDistanceFromCameraDown: 4
+  maxDistanceFromCameraUp: 4
+  maxDistanceFromCameraDown: 2
 --- !u!114 &2736130329824498047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultChromaticAberration: 0
-  aberrationFactor: 0.15
+  aberrationFactor: 0.05
   trauma: 0
   traumaDropoffRate: 0.7
   traumaDrop: 1
