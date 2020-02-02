@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
             CameraEffects.Instance.AddScreenShake(trauma);
 
-            if (trauma > 0.2f) // slightly above velocity for same height jump
+            if (trauma > 0.1f) // slightly above velocity for same height jump
             {
                 AudioManager.Instance.Play("heavy_landing");
             }
