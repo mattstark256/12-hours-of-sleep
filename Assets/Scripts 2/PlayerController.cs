@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     // other untiy bullshit
     private GameObject player;
     private Rigidbody2D playerRB;
+    public Animator animator;
+    public SpriteRenderer playerSprite;
 
     // member variables
     private Vector2 movementDirection;
@@ -186,6 +188,7 @@ public class PlayerController : MonoBehaviour
             {
                 AudioManager.Instance.Play("crouch");
                 crouched = true;
+                animator.SetBool("Crouching", true);
                 tallCollider.gameObject.SetActive(false);
                 crouchedCollider.gameObject.SetActive(true);
             }
@@ -194,6 +197,7 @@ public class PlayerController : MonoBehaviour
         else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f, environment))
         {
             crouched = false;
+            animator.SetBool("Crouching", false);
             tallCollider.gameObject.SetActive(true);
             crouchedCollider.gameObject.SetActive(false);
         }
@@ -214,8 +218,14 @@ public class PlayerController : MonoBehaviour
             newVelocity.y = jumpVelocity;
         }
 
+            animator.SetFloat("Velocity", Mathf.Abs(movementDirection.x));
+
+        if (movementDirection.x > 0.1f) playerSprite.flipX = false;
+        if (movementDirection.x < -0.1f) playerSprite.flipX = true;
+
         if (onFloor)
         {
+            animator.SetBool("Jumping", false);
             //Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
             float speed = crouched ? crouchSpeed : playerSpeed;
             if (Mathf.Abs(movementDirection.x) > 0) // moving
@@ -229,6 +239,7 @@ public class PlayerController : MonoBehaviour
         }
         else // jumping or falling
         {
+            animator.SetBool("Jumping", true);
 
             if (movementDirection.x != 0)
             {
