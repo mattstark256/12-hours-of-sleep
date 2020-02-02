@@ -31,7 +31,7 @@ public class Popup : MonoBehaviour
 
     private IEnumerator MakeButtonFadeInCoroutine()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         button.gameObject.SetActive(true);
     }
 }
