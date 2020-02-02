@@ -7,6 +7,12 @@ public class Lever : Interactable
     [SerializeField]
     private Powerable powerable;
 
+    [SerializeField]
+    GameObject on;
+
+    [SerializeField]
+    GameObject off;
+
     // Levers can only be interacted with once (for now).
     private bool switched = false;
 
@@ -22,5 +28,17 @@ public class Lever : Interactable
 
         switched = !switched;
         powerable.SetPowered(switched);
+    }
+
+    private void Update()
+    {
+        if (switched)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = on.GetComponent<SpriteRenderer>().sprite;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = off.GetComponent<SpriteRenderer>().sprite;
+        }
     }
 }
