@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     private float coyoteCountdown = 0;
 
     [SerializeField]
-    private float assumedTerminalVelocity = 100;
+    private float minShakeVelocity = 30;
+    [SerializeField]
+    private float maxShakeVelocity = 60;
 
     // other untiy bullshit
     private GameObject player;
@@ -97,11 +99,12 @@ public class PlayerController : MonoBehaviour
         if (!onFloorLastFrame && onFloor)
         {
             // ~sf normal landing
-            if (fallingVelocity / assumedTerminalVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
+            if (fallingVelocity / maxShakeVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
             {
                 // ~sf heavy landing
-                Debug.Log(fallingVelocity / assumedTerminalVelocity);
-                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
+                float trauma = Mathf.Clamp01(Mathf.InverseLerp(minShakeVelocity, maxShakeVelocity, fallingVelocity));
+                Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
+                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(trauma);
             }
         }
 
