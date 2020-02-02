@@ -122,17 +122,19 @@ public class PlayerController : MonoBehaviour
         if (!onFloorLastFrame && onFloor)
         {
             // ~sf normal landing
-            if (fallingVelocity / maxShakeVelocity > 0.17f && fallingVelocity > 0) // slightly above velocity for same height jump
+            float trauma = Mathf.Clamp01(Mathf.InverseLerp(minShakeVelocity, maxShakeVelocity, fallingVelocity));
+            Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
+            CameraEffects.Instance.AddScreenShake(trauma);
+
+            if (trauma > 0.1f) // slightly above velocity for same height jump
             {
                 AudioManager.Instance.Play("heavy_landing");
-                float trauma = Mathf.Clamp01(Mathf.InverseLerp(minShakeVelocity, maxShakeVelocity, fallingVelocity));
-                Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
-                CameraEffects.Instance.AddScreenShake(trauma);
             }
             else
             {
                 AudioManager.Instance.Play("normal_landing");
             }
+
         }
 
         // Create object to vizualize trajectory
