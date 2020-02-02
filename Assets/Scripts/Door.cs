@@ -5,11 +5,13 @@ using UnityEngine;
 public class Door : Powerable
 {
     [SerializeField]
-    private float openDistance = 3;
+    private float openDistance = 3f;
     [SerializeField]
-    private float openDuration = 2;
+    private float openDuration = 2f;
+    [SerializeField]
+    private float timeOpen = 3f;
 
-    float openFraction = 0;
+    float openFraction = 0f;
 
     private Vector3 startPos;
 
@@ -65,6 +67,17 @@ public class Door : Powerable
         openFraction = Mathf.Clamp01(openFraction);
 
         transform.position = startPos + openFraction * Vector3.up * openDistance;
+
+        // Door closes after short period of time
+        if (openFraction >= 0.99 && powered)
+        {
+            timeOpen -= Time.deltaTime;
+            if (timeOpen <= 0)
+            {
+                powered = false;
+                timeOpen = 3f;
+            }
+        }
     }
 
 
