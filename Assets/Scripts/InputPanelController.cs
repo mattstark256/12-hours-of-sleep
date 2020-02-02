@@ -126,6 +126,8 @@ public class InputPanelController : MonoBehaviour
 
         dropShadow.enabled = true;
         dropShadow.transform.position = draggedKey.transform.position + CanvasScale.Instance.CanvasToWorld(dropShadowOffset);
+
+        AudioManager.Instance.Play("key_pickup");
     }
 
 
@@ -156,6 +158,7 @@ public class InputPanelController : MonoBehaviour
 
         if (nearestSlot != null)
         {
+            AudioManager.Instance.Play("key_insert");
             // Remove the key that was occupying the slot
             InputKey replacedKey = nearestSlot.GetInputKey();
             if (replacedKey != null)

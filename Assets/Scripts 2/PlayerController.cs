@@ -153,15 +153,28 @@ public class PlayerController : MonoBehaviour
         //crouchInput = Input.GetKey(KeyCode.S);
         crouchInput = InputMapper.Instance.GetButton(Action.Crouch); // replace this line with matt's call
 
+        if (crouched)
+        {
 
-        if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
-        {
-            AudioManager.Instance.SetLoopingAndPlay("walking");
+            if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
+            {
+                AudioManager.Instance.SetLoopingAndPlay("crouch_walk");
+            }
+            else if (AudioManager.Instance.IsPlaying("crouch_walk"))
+            {
+                AudioManager.Instance.StopLooping("crouch_walk");
+            }
         }
-        else if (AudioManager.Instance.IsPlaying("walking"))
-        {
-            AudioManager.Instance.StopLooping("walking");
-            // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
+        else {
+
+            if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
+            {
+                AudioManager.Instance.SetLoopingAndPlay("walking");
+            }
+            else if (AudioManager.Instance.IsPlaying("walking"))
+            {
+                AudioManager.Instance.StopLooping("walking");
+            }
         }
 
 
@@ -193,6 +206,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f, environment))
         {
+            AudioManager.Instance.Play("uncrouch");
             crouched = false;
             tallCollider.gameObject.SetActive(true);
             crouchedCollider.gameObject.SetActive(false);
