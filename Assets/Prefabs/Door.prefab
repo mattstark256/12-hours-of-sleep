@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2545228630510174048}
   - component: {fileID: 2545228630510174049}
   - component: {fileID: 2545228630510174054}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,6 +97,7 @@ MonoBehaviour:
   openDistance: 3
   openDuration: 2
   closeDuration: 0.5
+  dispayPowered: 0
 --- !u!61 &2545228630510174054
 BoxCollider2D:
   m_ObjectHideFlags: 0
