@@ -8,6 +8,8 @@ public class Grappler : MonoBehaviour
     private float grappleDistance = 5;
     [SerializeField]
     private SpriteRenderer rope;
+    [SerializeField]
+    Vector3 grappleOffset;
 
     private GrapplePoint[] grapplePoints;
 
@@ -108,11 +110,12 @@ public class Grappler : MonoBehaviour
     {
         if (grappling)
         {
-            Vector3 vectorToGrapplePoint = currentGrapplePoint.transform.position - transform.position;
-            rope.transform.position = transform.position + vectorToGrapplePoint * 0.5f;
+            Vector3 grappleStart = transform.position + grappleOffset;
+            Vector3 vectorToGrapplePoint = currentGrapplePoint.transform.position - grappleStart;
+            rope.transform.position = grappleStart + vectorToGrapplePoint * 0.5f;
             float angleRad = Mathf.Atan2(vectorToGrapplePoint.y, vectorToGrapplePoint.x);
             rope.transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * angleRad);
-            rope.transform.localScale = new Vector3(vectorToGrapplePoint.magnitude, 0.1f, 1);
+            rope.transform.localScale = new Vector3(vectorToGrapplePoint.magnitude, 0.15f, 1);
         }
     }
 }
