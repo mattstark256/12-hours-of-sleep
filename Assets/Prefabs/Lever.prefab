@@ -95,7 +95,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
+  m_Offset: {x: 0, y: 0.36}
   serializedVersion: 2
   m_Radius: 1
 --- !u!114 &579787859801131462
@@ -113,3 +113,6 @@ MonoBehaviour:
   powerable: {fileID: 0}
   on: {fileID: 21300000, guid: e20c6dd86c2e48b40bd40624097456e3, type: 3}
   off: {fileID: 21300000, guid: f60f29c4289d122449dc2525a7ced612, type: 3}
+  timeToReset: 3
+  doReset: 0
+  switched: 0

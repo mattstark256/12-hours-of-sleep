@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 794053893}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     type: 3}
   environment:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
   jumpVelocity: 19
   jumpCooldown: 0.1
   coyoteTime: 1
@@ -90,6 +90,8 @@ MonoBehaviour:
   maxShakeVelocity: 100
   tallCollider: {fileID: 2960176353321872968}
   crouchedCollider: {fileID: 8170481507378843741}
+  animator: {fileID: 541633565}
+  playerSprite: {fileID: 6453471151647439973}
 --- !u!114 &794053889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +169,7 @@ GameObject:
   - component: {fileID: 6855744094471572003}
   m_Layer: 0
   m_Name: Rope
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,9 +247,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4595430529618220269}
   - component: {fileID: 6453471151647439973}
+  - component: {fileID: 541633565}
   m_Layer: 8
   m_Name: New Sprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2314084003921607445}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.98, z: 0}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 142870734}
@@ -315,6 +318,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &541633565
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2314084003921607445}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8bff8441b33031e41a17bbbc8c8414e1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3028225046454099684
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +349,7 @@ GameObject:
   - component: {fileID: 8170481507378843741}
   m_Layer: 8
   m_Name: CrouchedCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -374,7 +396,7 @@ GameObject:
   - component: {fileID: 2960176353321872968}
   m_Layer: 8
   m_Name: TallCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

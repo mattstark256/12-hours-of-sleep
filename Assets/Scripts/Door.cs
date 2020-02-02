@@ -11,6 +11,12 @@ public class Door : Powerable
     [SerializeField]
     private float closeDuration = 1f;
 
+    //[SerializeField]
+    //private bool isElevator = false;
+
+    [SerializeField]
+    bool dispayPowered;
+
     float openFraction = 0f;
 
     private Vector3 startPos;
@@ -47,6 +53,7 @@ public class Door : Powerable
     // Update is called once per frame
     void Update()
     {
+        dispayPowered = base.powered;
         //if (doorCond == DOORSTATE.OPENING)
         //{
         //    openAmount += Time.deltaTime / openDuration;
