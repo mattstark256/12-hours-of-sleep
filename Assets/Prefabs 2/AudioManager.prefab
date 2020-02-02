@@ -43,20 +43,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de88dc8dc93c1a448e2e291f239825d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffects: []
+  soundEffects:
+  - name: button
+    clip: {fileID: 8300000, guid: f9aa6f00d3b8e174faa967765a8ce816, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: crouch
+    clip: {fileID: 8300000, guid: c4cd98e3c801c194a9ad1049fcf3312b, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: game_break
+    clip: {fileID: 8300000, guid: e2b5fb0f824f3144eaff705c06d1f2f2, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: grapple_connect
+    clip: {fileID: 8300000, guid: dd4c74208dcadd848a3480cb63b628d4, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: grapple_disconect
+    clip: {fileID: 8300000, guid: 5d456d7c4045a0d45be7dac4b7b500b9, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: hit
+    clip: {fileID: 8300000, guid: 3f7d0843635c7c44ba20181dff6b5b30, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: jump
+    clip: {fileID: 8300000, guid: 4d971d8973486d947ad8c81cf0f3d83e, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: key_insert
+    clip: {fileID: 8300000, guid: 012552f90c7ad3140a001d54a6984138, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: key_pickup
+    clip: {fileID: 8300000, guid: 4f2b4dc748b28974aa740ec1df9f536f, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: landing_impact
+    clip: {fileID: 8300000, guid: 13a92c30ad38c0240a53a01f675d8838, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: rumble
+    clip: {fileID: 8300000, guid: 96e00be216129094a839b797c424afd2, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: start_game
+    clip: {fileID: 8300000, guid: 3aab0051d12a20840a5e08c23e53b493, type: 3}
+    volume: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: walking
+    clip: {fileID: 8300000, guid: 99b6b1a3002eb084faddb88312faf5b6, type: 3}
+    volume: 0.8
+    loop: 1
+    source: {fileID: 0}
   music:
-  - name: m1
+  - name: music_0
+    clip: {fileID: 8300000, guid: 48de18887131f4a4e9cbfbd9ef1aa395, type: 3}
+    volume: 0.8
+    loop: 1
+    source: {fileID: 0}
+  - name: music_1
+    clip: {fileID: 8300000, guid: 9f1c7bc81d0a8fc4bba69c0b0e61f767, type: 3}
+    volume: 0.8
+    loop: 1
+    source: {fileID: 0}
+  - name: music_2
     clip: {fileID: 8300000, guid: 318aa35bc5e9c8c4a95ab3f5ca0452d8, type: 3}
     volume: 0.8
     loop: 1
     source: {fileID: 0}
-  - name: m2
+  - name: music_3
     clip: {fileID: 8300000, guid: 2c2b797326509b14283eceea682924d6, type: 3}
     volume: 0.8
     loop: 1
     source: {fileID: 0}
-  - name: m3
+  - name: music_4
     clip: {fileID: 8300000, guid: 1fe679b583cd71943aba1b152c1be752, type: 3}
     volume: 0.8
     loop: 1
+    source: {fileID: 0}
+  - name: music_5
+    clip: {fileID: 8300000, guid: 34faf78783015cd46bb95136b20eb6d0, type: 3}
+    volume: 0.8
+    loop: 1
+    source: {fileID: 0}
+  symbol:
+    name: 
+    clip: {fileID: 0}
+    volume: 0.8
+    loop: 0
     source: {fileID: 0}

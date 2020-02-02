@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 10;
     [SerializeField]
+    private float crouchSpeed = 5;
+    [SerializeField]
     private float groundMovementSmoothing = 10;
     [SerializeField]
     private float airMovementSmoothing = 10;
@@ -30,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private float minShakeVelocity = 30;
     [SerializeField]
     private float maxShakeVelocity = 60;
+    [SerializeField]
+    private CapsuleCollider2D tallCollider;
+    [SerializeField]
+    private CapsuleCollider2D crouchedCollider;
 
     // other untiy bullshit
     private GameObject player;
@@ -38,11 +44,21 @@ public class PlayerController : MonoBehaviour
     // member variables
     private Vector2 movementDirection;
     float fallingVelocity;
+    float tallHeight ;
+    float colliderWidth ;
+    float crouchedHeight ;
+
+    float tallOffset ;
+    float crouchedOffset ;
+    float colliderXOffset;
+
+    bool crouched = false;
 
     // flags for fixed update
     bool canJump = false;
     bool onFloor = false;
     bool beginJump = false;
+    bool crouchInput = false;
 
 
     public Vector3 GetVelocity()
@@ -62,8 +78,18 @@ public class PlayerController : MonoBehaviour
 
         player = gameObject;
         playerRB = player.GetComponent<Rigidbody2D>();
-
-
+        // tallCollider = GetComponent<CapsuleCollider2D>();
+        // crouchedCollider = GetComponentInChildren<CapsuleCollider2D>();
+        //tallHeight = GetComponent<Collider>().size.y;
+        //colliderWidth = GetComponent<Collider>().size.x;
+        //crouchedHeight = tallHeight / 2f;
+        //tallOffset = GetComponent<Collider>().offset.y;
+        //crouchedOffset = tallOffset / 2f;
+        //colliderXOffset = GetComponent<Collider>().offset.x;
+        //crouchedCollider.enabled = false;
+        //tallCollider.enabled = true;
+        tallCollider.gameObject.SetActive(true);
+        crouchedCollider.gameObject.SetActive(false);
 
     }
 
@@ -115,28 +141,54 @@ public class PlayerController : MonoBehaviour
 
     void HandleInput()
     {
-        movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
-
-        //if(Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
-        //{
-        //    AudioManager.Instance.SetLoopingAndPlay("/* ~sf walking */");
-        //}
-        //else if (AudioManager.Instance.IsPlaying("/* ~sf walking */"))
-        //{
-        //    AudioManager.Instance.StopLooping("/* ~sf walking */");
-        //    // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
-        //}
-
+        movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0); // replace line with matts code
         bool jumpInput = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W); // replace this line with matt's call
+        crouchInput = Input.GetKey(KeyCode.S);
+
+
+        if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
+        {
+            AudioManager.Instance.SetLoopingAndPlay("/* ~sf walking */");
+        }
+        else if (AudioManager.Instance.IsPlaying("/* ~sf walking */"))
+        {
+            AudioManager.Instance.StopLooping("/* ~sf walking */");
+            // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
+        }
+
+
+
+
         if (jumpInput && canJump)
         {
             // ~sf jump
             beginJump = true;
         }
+        
     }
 
     private void FixedUpdate()
     {
+
+        // crouching
+
+        if (crouchInput)
+        {
+            crouched = true;
+            tallCollider.gameObject.SetActive(false);
+            crouchedCollider.gameObject.SetActive(true);
+
+        }
+        else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f))
+        {
+            crouched = false;
+            tallCollider.gameObject.SetActive(true);
+            crouchedCollider.gameObject.SetActive(false);
+        }
+
+
+
+
         handleIfCanJump();
 
         Vector2 newVelocity = playerRB.velocity;
@@ -152,13 +204,14 @@ public class PlayerController : MonoBehaviour
 
         if (onFloor)
         {
+            float speed = crouched ? crouchSpeed : playerSpeed;
             if (Mathf.Abs(movementDirection.x) > 0) // moving
             {
-                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, groundMovementSmoothing * Time.fixedDeltaTime);
+                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * speed, groundMovementSmoothing * Time.fixedDeltaTime);
             }
             else
             {
-                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * playerSpeed, 2 * groundMovementSmoothing * Time.fixedDeltaTime);
+                newVelocity.x = Mathf.Lerp(playerRB.velocity.x, movementDirection.x * speed, 2 * groundMovementSmoothing * Time.fixedDeltaTime);
             }
         }
         else // jumping or falling

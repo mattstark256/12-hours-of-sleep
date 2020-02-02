@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: d13fbd8ea96c53748a52cdbd556ddee1
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Bete Noir NF
+  fontNames:
+  - Bete Noir NF
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 44403a25bac970d40a4796402b2bbe9e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
