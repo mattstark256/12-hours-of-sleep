@@ -58,19 +58,31 @@ public class Door : Powerable
         //openAmount = Mathf.Clamp01(openAmount);
         if (powered)
         {
-            AudioManager.Instance.SetLoopingAndPlay("door_movement");
             openFraction += Time.deltaTime / openDuration;
+            if(openFraction > 0.95f)
+            {
+                AudioManager.Instance.StopLooping("door_movement");
+            }
+            else
+            {
+                AudioManager.Instance.SetLoopingAndPlay("door_movement");
+            }
+
         }
         else
         {
-            if (openFraction > 0)
+            bool previouslyOpen = openFraction > 0;
+            openFraction -= Time.deltaTime / closeDuration;
+            if (previouslyOpen)
             {
-                bool previouslyOpen = openFraction > 0;
-                openFraction -= Time.deltaTime / closeDuration;
-                if (previouslyOpen && openFraction <= 0)
+                if (openFraction <= 0)
                 {
                     AudioManager.Instance.StopLooping("door_movement");
                     AudioManager.Instance.Play("door_impact");
+                }
+                else
+                {
+                    AudioManager.Instance.SetLoopingAndPlay("door_movement");
                 }
             }
         }
@@ -92,7 +104,13 @@ public class Door : Powerable
 
     public override void SetPowered(bool _powered)
     {
+        //if (powered && _powered==false)
+        //{
+        //    AudioManager.Instance.StopLooping("door_movement");
+        //}
+
         base.SetPowered(_powered);
+        
         if(_powered == false)
         {
             AudioManager.Instance.StopLooping("door_movement");
