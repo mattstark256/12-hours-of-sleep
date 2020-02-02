@@ -97,17 +97,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleInput();
-
-
-
     }
 
     void handleIfCanJump()
     {
         bool onFloorLastFrame = onFloor;
 
-        onFloor = Physics2D.Raycast(transform.position + Vector3.right * 0.25f, Vector3.down, 0.1f, environment)
-               || Physics2D.Raycast(transform.position + Vector3.left * 0.25f, Vector3.down, 0.1f, environment);
+        onFloor = Physics2D.Raycast(transform.position + Vector3.right * 0.2f, Vector3.down, 0.1f, environment)
+               || Physics2D.Raycast(transform.position + Vector3.left * 0.2f, Vector3.down, 0.1f, environment);
 
         coyoteCountdown = (onFloor) ? coyoteTime : coyoteCountdown - Time.deltaTime;
 
@@ -125,25 +122,30 @@ public class PlayerController : MonoBehaviour
         if (!onFloorLastFrame && onFloor)
         {
             // ~sf normal landing
-            if (fallingVelocity / maxShakeVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
+            if (fallingVelocity / maxShakeVelocity > 0.17f && fallingVelocity > 0) // slightly above velocity for same height jump
             {
                 // ~sf heavy landing
                 float trauma = Mathf.Clamp01(Mathf.InverseLerp(minShakeVelocity, maxShakeVelocity, fallingVelocity));
                 Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
-                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(trauma);
+                CameraEffects.Instance.AddScreenShake(trauma);
             }
         }
 
         // Create object to vizualize trajectory
-       // Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
+        //Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
     }
 
 
     void HandleInput()
     {
-        movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0); // replace line with matts code
-        bool jumpInput = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W); // replace this line with matt's call
-        crouchInput = Input.GetKey(KeyCode.S);
+        movementDirection = Vector2.zero;
+        if (InputMapper.Instance.GetButton(Action.MoveRight)) movementDirection.x += 1;
+        if (InputMapper.Instance.GetButton(Action.MoveLeft)) movementDirection.x -= 1;
+        //movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0); // replace line with matts code
+        bool jumpInput = InputMapper.Instance.GetButtonDown(Action.Jump);
+        //bool jumpInput = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W); // replace this line with matt's call
+        //crouchInput = Input.GetKey(KeyCode.S);
+        crouchInput = InputMapper.Instance.GetButton(Action.Crouch); // replace this line with matt's call
 
 
         if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
@@ -174,12 +176,15 @@ public class PlayerController : MonoBehaviour
 
         if (crouchInput)
         {
-            crouched = true;
-            tallCollider.gameObject.SetActive(false);
-            crouchedCollider.gameObject.SetActive(true);
+            if (tallCollider.gameObject.activeSelf == true)
+            {
+                crouched = true;
+                tallCollider.gameObject.SetActive(false);
+                crouchedCollider.gameObject.SetActive(true); 
+            }
 
         }
-        else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f))
+        else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f, environment))
         {
             crouched = false;
             tallCollider.gameObject.SetActive(true);
@@ -204,6 +209,7 @@ public class PlayerController : MonoBehaviour
 
         if (onFloor)
         {
+            //Instantiate(debugPrefab, transform.position + Vector3.right * 0.25f + Vector3.down * 0.1f, Quaternion.identity);
             float speed = crouched ? crouchSpeed : playerSpeed;
             if (Mathf.Abs(movementDirection.x) > 0) // moving
             {

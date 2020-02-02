@@ -20,7 +20,7 @@ public class Grappler : MonoBehaviour
     void Start()
     {
         grapplePoints = FindObjectsOfType<GrapplePoint>();
-        Debug.Log(grapplePoints.Length);
+        //Debug.Log(grapplePoints.Length);
 
         playerRigidBody = GetComponent<Rigidbody2D>();
 
@@ -30,9 +30,9 @@ public class Grappler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (InputMapper.Instance.GetButtonDown(Action.Whip))
         {
-            Debug.Log("looking for grapple");
+            //Debug.Log("looking for grapple");
             GrapplePoint nearestGrapplePoint = null;
             float shortestDistance = 0;
             foreach(GrapplePoint grapplePoint in grapplePoints)
@@ -48,7 +48,7 @@ public class Grappler : MonoBehaviour
             if (nearestGrapplePoint != null && shortestDistance < grappleDistance)
             {
                 // A valid grapple point has been found.
-                Debug.Log("connecting to grapple");
+                //Debug.Log("connecting to grapple");
 
                 grappling = true;
                 currentGrapplePoint = nearestGrapplePoint;
@@ -57,14 +57,13 @@ public class Grappler : MonoBehaviour
             }
         }
 
-        if (grappling && !Input.GetKey(KeyCode.F))
+        if (grappling && !InputMapper.Instance.GetButton(Action.Whip))
         {
             // Stopped grappling
             grappling = false;
             currentGrapplePoint = null;
             rope.enabled = false;
         }
-
     }
 
     private void FixedUpdate()

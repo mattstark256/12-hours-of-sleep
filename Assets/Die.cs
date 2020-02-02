@@ -19,10 +19,10 @@ public class Die : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("entered collider");
+        //Debug.Log("entered collider");
         if (collision.tag == "Death")
         {
-            Debug.Log("dying");
+            //Debug.Log("dying");
             timeSinceDeath = 0;
             dying = true;
         }

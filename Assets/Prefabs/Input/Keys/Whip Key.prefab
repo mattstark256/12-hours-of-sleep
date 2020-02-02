@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3048525a8a235448a86acc8bd7fbd2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCode: 102
+  keyCode: 304
 --- !u!1 &8974507163368881825
 GameObject:
   m_ObjectHideFlags: 0

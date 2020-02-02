@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogError(name + " sound effect does not exist");
+       // Debug.LogError(name + " sound effect does not exist");
     }
 
     public bool IsPlaying(string name)
@@ -92,7 +92,7 @@ public class AudioManager : MonoBehaviour
                 return m.source.isPlaying;
             }
         }
-        Debug.LogError(name + " sound effect does not exist");
+       // Debug.LogError(name + " sound effect does not exist");
         return false;
     }
 
@@ -107,7 +107,7 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogError(name + " sound effect does not exist");
+       // Debug.LogError(name + " sound effect does not exist");
     }
 
     public void StopLooping(string name)
@@ -121,7 +121,7 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogError(name + " sound effect does not exist");
+       // Debug.LogError(name + " sound effect does not exist");
     }
 
 

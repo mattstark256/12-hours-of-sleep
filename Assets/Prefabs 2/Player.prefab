@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
+  crouchSpeed: 5
   groundMovementSmoothing: 10
   airMovementSmoothing: 2
   debugPrefab: {fileID: 7332363567004196585, guid: ff2bbb0d86b503b4fbe71e4a2ae29169,
@@ -85,23 +86,8 @@ MonoBehaviour:
   jumpVelocity: 19
   jumpCooldown: 0.1
   coyoteTime: 1
-  assumedTerminalVelocity: 60
---- !u!70 &6816507710292810850
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142870731}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3ca8240219d7ffc419ff50f354011421, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.9}
-  m_Size: {x: 0.5, y: 1.8}
-  m_Direction: 0
+  minShakeVelocity: 15
+  maxShakeVelocity: 100
   tallCollider: {fileID: 2960176353321872968}
   crouchedCollider: {fileID: 8170481507378843741}
 --- !u!114 &794053889
@@ -339,7 +325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8080966351677518203}
   - component: {fileID: 8170481507378843741}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CrouchedCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2952628083147103149}
   - component: {fileID: 2960176353321872968}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TallCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
