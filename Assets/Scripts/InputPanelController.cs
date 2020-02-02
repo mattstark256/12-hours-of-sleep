@@ -33,6 +33,8 @@ public class InputPanelController : MonoBehaviour
     private InputKey draggedKey;
     private Vector3 dragOffset;
 
+    int numberOfCollectedFragments = 0;
+
     private void Start()
     {
         inputKeys = new List<InputKey>(keyParent.GetComponentsInChildren<InputKey>());
@@ -328,12 +330,18 @@ public class InputPanelController : MonoBehaviour
         }
 
         inputKeys.Add(newKey);
+
+        if (numberOfCollectedFragments > 3)
+        {
+            AudioManager.Instance.PlayNextMusic();
+        }
     }
 
 
     public void AddFragment(FragmentPickup fragmentPickup) { StartCoroutine(AddFragmentCoroutine(fragmentPickup)); }
     private IEnumerator AddFragmentCoroutine(FragmentPickup fragmentPickup)
     {
+        numberOfCollectedFragments++;
         InputFragment newFragment = Instantiate(fragmentPickup.GetFragmentPrefab(), fragmentParent);
         Transform targetTransform = new GameObject("Fragment Target Transform").transform;
         targetTransform.position = newFragment.transform.position;
