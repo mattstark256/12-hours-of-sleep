@@ -43,7 +43,7 @@ public class DoorButton : MonoBehaviour
         if (Input.GetButtonDown("Interact") && interacted)
         {
             Debug.Log("pressed");
-            door.GetComponent<Door>().Open();
+            //door.GetComponent<Door>().Open();
             doorOpen = true;
         }
 
@@ -54,7 +54,7 @@ public class DoorButton : MonoBehaviour
             {
                 //call close door function
                 //change animation
-                door.GetComponent<Door>().Close();
+                //door.GetComponent<Door>().Close();
                 gameObject.GetComponent<SpriteRenderer>().sprite = off.GetComponent<SpriteRenderer>().sprite;
                 doorOpen = false;
                 timeActive = 3f;

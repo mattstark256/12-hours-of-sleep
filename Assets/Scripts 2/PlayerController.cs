@@ -29,7 +29,9 @@ public class PlayerController : MonoBehaviour
     private float coyoteCountdown = 0;
 
     [SerializeField]
-    private float assumedTerminalVelocity = 100;
+    private float minShakeVelocity = 30;
+    [SerializeField]
+    private float maxShakeVelocity = 60;
     [SerializeField]
     private CapsuleCollider2D tallCollider;
     [SerializeField]
@@ -122,12 +124,16 @@ public class PlayerController : MonoBehaviour
         // If they've landed on the ground, do a camera shake
         if (!onFloorLastFrame && onFloor)
         {
-            // ~sf normal landing
-            if (fallingVelocity / assumedTerminalVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
+            if (fallingVelocity / maxShakeVelocity > 0.17f && fallingVelocity > 0 ) // slightly above velocity for same height jump
             {
-                // ~sf heavy landing
-                Debug.Log(fallingVelocity / assumedTerminalVelocity);
-                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(fallingVelocity / assumedTerminalVelocity);
+                AudioManager.Instance.Play("heavy_landing");
+                float trauma = Mathf.Clamp01(Mathf.InverseLerp(minShakeVelocity, maxShakeVelocity, fallingVelocity));
+                Debug.Log("impact velocity: " + fallingVelocity + " max & min: " + maxShakeVelocity + ", " + minShakeVelocity + " trauma value: " + trauma);
+                CameraEffects.Instance.AddScreenShakeAndChromaticAberration(trauma);
+            }
+            else
+            {
+                AudioManager.Instance.Play("normal_landing");
             }
         }
 
@@ -145,11 +151,11 @@ public class PlayerController : MonoBehaviour
 
         if (Mathf.Abs(movementDirection.x) > 0.1 && onFloor)
         {
-            AudioManager.Instance.SetLoopingAndPlay("/* ~sf walking */");
+            AudioManager.Instance.SetLoopingAndPlay("walking");
         }
-        else if (AudioManager.Instance.IsPlaying("/* ~sf walking */"))
+        else if (AudioManager.Instance.IsPlaying("walking"))
         {
-            AudioManager.Instance.StopLooping("/* ~sf walking */");
+            AudioManager.Instance.StopLooping("walking");
             // callum, this might need to call Stop() on the walking sound or it might be fine, see how it sounds
         }
 
@@ -158,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumpInput && canJump)
         {
-            // ~sf jump
+            AudioManager.Instance.Play("jump");
             beginJump = true;
         }
         
@@ -169,11 +175,15 @@ public class PlayerController : MonoBehaviour
 
         // crouching
 
-        if (crouchInput)
+        if (crouchInput )
         {
-            crouched = true;
-            tallCollider.gameObject.SetActive(false);
-            crouchedCollider.gameObject.SetActive(true);
+            if (tallCollider.gameObject.activeSelf == true)
+            {
+                AudioManager.Instance.Play("crouch");
+                crouched = true;
+                tallCollider.gameObject.SetActive(false);
+                crouchedCollider.gameObject.SetActive(true);
+            }
 
         }
         else if(crouchedCollider.gameObject.activeSelf == true && !Physics2D.Raycast(transform.position + Vector3.up,Vector3.up,0.25f))
